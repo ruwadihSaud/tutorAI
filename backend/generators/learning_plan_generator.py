@@ -1,4 +1,4 @@
-def generate_learning_plan_reply(user_message: str) -> str:
+def generate_learning_plan(user_message: str) -> str:
     return (
         "Sure! I can help you create a personalized learning plan.\n\n"
         "To start, tell me:\n"

@@ -1,10 +1,10 @@
 # backend/tutor.py
 
 from backend.generators.explanation_generator import generate_explanation
-from backend.generators.general_generator import generate_general_reply
-from backend.generators.help_generator import generate_help_reply
-from backend.generators.learning_plan_generator import generate_learning_plan_reply
-from backend.generators.progress_generator import generate_progress_reply
+from backend.generators.general_generator import generate_general
+from backend.generators.help_generator import generate_help
+from backend.generators.learning_plan_generator import generate_learning_plan
+from backend.generators.progress_generator import generate_progress
 from backend.generators.quiz_generator import generate_quiz
 from backend.generators.summary_generator import generate_summary
 
@@ -25,15 +25,15 @@ def generate_tutor_reply(user_message: str) -> str:
         return generate_explanation(user_message)
 
     if intent == "progress":
-        return generate_progress_reply(user_message)
+        return generate_progress(user_message)
 
     if intent == "learning_plan":
-        return generate_learning_plan_reply(user_message)
+        return generate_learning_plan(user_message)
 
     if intent == "help":
-        return generate_help_reply(user_message)
+        return generate_help(user_message)
 
-    return generate_general_reply(user_message)
+    return generate_general(user_message)
 
 
 def detect_intent(user_message: str) -> str:
