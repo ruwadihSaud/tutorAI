@@ -1,0 +1,86 @@
+[
+  {
+    "id": "lesson_01_ml_intro",
+    "order": 1,
+    "title": "Introduction to Machine Learning",
+    "subject": "Machine Learning",
+    "level": "Beginner",
+    "chapter": "Chapter 1",
+    "section": "1.1",
+    "content": "Machine learning is a field that focuses on learning patterns from data. It allows computers to make predictions or decisions based on examples. Machine learning is used in many real-world applications such as predicting customer behavior, detecting patterns, and supporting decision-making. The main idea is that the system learns from data instead of being manually programmed for every rule.",
+    "source": "Hands-On Machine Learning with R",
+    "source_url": "https://bradleyboehmke.github.io/HOML/intro.html"
+  },
+  {
+    "id": "lesson_02_supervised_learning",
+    "order": 2,
+    "title": "Supervised Learning",
+    "subject": "Machine Learning",
+    "level": "Beginner",
+    "chapter": "Chapter 1",
+    "section": "1.2",
+    "content": "Supervised learning is used when the training data contains both input features and known target values. The model learns the relationship between the inputs and the target so it can make predictions on new data. Examples include predicting house prices, customer churn, or whether an email is spam. Supervised learning includes regression and classification problems.",
+    "source": "Hands-On Machine Learning with R",
+    "source_url": "https://bradleyboehmke.github.io/HOML/intro.html"
+  },
+  {
+    "id": "lesson_03_regression",
+    "order": 3,
+    "title": "Regression Problems",
+    "subject": "Machine Learning",
+    "level": "Intermediate",
+    "chapter": "Chapter 2",
+    "section": "2.1",
+    "content": "Regression is a supervised learning task used when the target variable is numeric and continuous. The goal is to predict a value, such as price, temperature, cost, or time. A regression model learns how input features are related to the target value. The quality of the model is usually evaluated by measuring the difference between the predicted values and the actual values.",
+    "source": "Hands-On Machine Learning with R",
+    "source_url": "https://bradleyboehmke.github.io/HOML/intro.html"
+  },
+  {
+    "id": "lesson_04_classification",
+    "order": 4,
+    "title": "Classification Problems",
+    "subject": "Machine Learning",
+    "level": "Intermediate",
+    "chapter": "Chapter 2",
+    "section": "2.2",
+    "content": "Classification is a supervised learning task where the target variable is categorical. The goal is to assign each observation to a class. Examples include predicting whether a customer will leave, whether a message is spam, or whether a review is positive or negative. Classification models may produce class labels directly or estimate probabilities for each class.",
+    "source": "Hands-On Machine Learning with R",
+    "source_url": "https://bradleyboehmke.github.io/HOML/intro.html"
+  },
+  {
+    "id": "lesson_05_unsupervised_learning",
+    "order": 5,
+    "title": "Unsupervised Learning",
+    "subject": "Machine Learning",
+    "level": "Intermediate",
+    "chapter": "Chapter 3",
+    "section": "3.1",
+    "content": "Unsupervised learning is used when the data does not contain a target value. The goal is to discover hidden patterns or structure in the data. Common tasks include clustering and dimension reduction. Clustering groups similar data points together, while dimension reduction reduces the number of variables while keeping important information.",
+    "source": "Hands-On Machine Learning with R",
+    "source_url": "https://bradleyboehmke.github.io/HOML/intro.html"
+  },
+  {
+    "id": "lesson_06_model_evaluation",
+    "order": 6,
+    "title": "Model Evaluation",
+    "subject": "Machine Learning",
+    "level": "Advanced",
+    "chapter": "Chapter 4",
+    "section": "4.1",
+    "content": "Model evaluation is the process of measuring how well a machine learning model performs. A model should not only perform well on the training data but also generalize to new unseen data. For regression tasks, common evaluation measures include prediction error and residual-based metrics. For classification tasks, evaluation may include accuracy, precision, recall, and confusion matrix analysis.",
+    "source": "Hands-On Machine Learning with R",
+    "source_url": "https://bradleyboehmke.github.io/HOML/intro.html"
+  },
+  {
+    "id": "lesson_07_overfitting",
+    "order": 7,
+    "title": "Overfitting and Generalization",
+    "subject": "Machine Learning",
+    "level": "Advanced",
+    "chapter": "Chapter 4",
+    "section": "4.2",
+    "content": "Overfitting happens when a model learns the training data too closely, including noise or random patterns. An overfitted model may perform very well on training data but poorly on new data. Generalization means the model can perform well on unseen examples. Techniques such as train-test splitting, cross-validation, regularization, and simpler models can help reduce overfitting.",
+    "source": "Hands-On Machine Learning with R",
+    "source_url": "https://bradleyboehmke.github.io/HOML/intro.html"
+  }
+]

@@ -1,0 +1,35 @@
+# frontend/data/lesson_loader.py
+
+import json
+from pathlib import Path
+
+
+DATA_PATH = Path(__file__).parent / "lessons.json"
+
+
+def load_lessons():
+    with open(DATA_PATH, "r", encoding="utf-8") as file:
+        lessons = json.load(file)
+
+    lessons = sorted(lessons, key=lambda lesson: lesson["order"])
+    return lessons
+
+
+def get_lesson_by_order(order: int):
+    lessons = load_lessons()
+
+    for lesson in lessons:
+        if lesson["order"] == order:
+            return lesson
+
+    return None
+
+
+def get_first_lesson_order():
+    lessons = load_lessons()
+    return lessons[0]["order"]
+
+
+def get_last_lesson_order():
+    lessons = load_lessons()
+    return lessons[-1]["order"]
