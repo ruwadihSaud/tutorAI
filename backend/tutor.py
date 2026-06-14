@@ -1,6 +1,7 @@
 # backend/tutor.py
 
 from backend.data.lesson_loader import get_lesson_by_id
+from backend.rag.lesson_retriever import retrieve_lesson
 
 from backend.generators.summary_generator import generate_summary
 from backend.generators.quiz_generator import generate_quiz
@@ -11,32 +12,73 @@ from backend.generators.general_generator import generate_general
 
 # يحدد نوع الطلب من رساله الطالب 
 def detect_intent(user_message: str) -> str:
-    message = user_message.lower()
+    message = user_message.lower().strip()
 
-    if any(word in message for word in ["summarize", "summary", "تلخيص", "لخص", "لخصي"]):
+    summary_keywords = [
+        "summarize", "summary", "summarise",
+        "لخص", "لخصي", "تلخيص", "اختصر", "اختصري",
+        "اهم النقاط", "أهم النقاط", "الزبدة"
+    ]
+
+    quiz_keywords = [
+        "quiz", "test", "exam", "questions",
+        "اختبار", "اختبرني", "اسئلة", "أسئلة",
+        "سوي اختبار", "اعمل اختبار", "تدريب"
+    ]
+
+    explanation_keywords = [
+        "explain", "explanation", "teach", "understand",
+        "اشرح", "شرح", "فسر", "وضح", "فهمني",
+        "ما فهمت"
+    ]
+
+    help_keywords = [
+        "help", "support", "مساعدة", "ساعدني",
+        "وش اقدر اسوي", "كيف استخدم"
+    ]
+
+    if any(keyword in message for keyword in summary_keywords):
         return "summary"
 
-    if any(word in message for word in ["quiz", "test", "exam", "اختبار", "اسئلة", "أسئلة"]):
+    if any(keyword in message for keyword in quiz_keywords):
         return "quiz"
 
-    if any(word in message for word in ["explain", "explanation", "teach", "شرح", "اشرح", "فسر"]):
+    if any(keyword in message for keyword in explanation_keywords):
         return "explanation"
 
-    if any(word in message for word in ["help", "support", "مساعدة", "ساعدني", "كيف"]):
+    if any(keyword in message for keyword in help_keywords):
         return "help"
 
     return "general"
 
 
-def generate_tutor_reply(user_message: str, lesson_id: str | None = None) -> str:
-    #تحديد الطلب 
+def generate_tutor_reply(user_message: str,lesson_id: str | None = None) -> str:
+    """
+    Main TutorAI router.
+
+    1. Detect the student intent.
+    2. Use RAG to retrieve the relevant lesson.
+    3. Send the lesson to the correct generator.
+    """
+
     intent = detect_intent(user_message)
 
-    lesson = None
+    if intent == "help":
+        return generate_help(user_message)
 
-    # حسب الطلب يستدعي اي  من البرومبتات
-    if lesson_id:
-        lesson = get_lesson_by_id(lesson_id)
+    if intent == "general":
+        return generate_general(user_message)
+
+    lesson = retrieve_lesson(
+        user_message=user_message,
+        current_lesson_id=lesson_id
+    )
+
+    if lesson is None:
+        return (
+            "I could not find a suitable lesson for your request. "
+            "Please open a lesson or mention the topic more clearly."
+        )
 
     if intent == "summary":
         return generate_summary(lesson)
@@ -46,8 +88,5 @@ def generate_tutor_reply(user_message: str, lesson_id: str | None = None) -> str
 
     if intent == "explanation":
         return generate_explanation(lesson)
-
-    if intent == "help":
-        return generate_help(user_message)
 
     return generate_general(user_message)

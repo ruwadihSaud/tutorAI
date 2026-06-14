@@ -1,9 +1,18 @@
+from pathlib import Path
+import sys
+
 import streamlit as st
 
 from styles.theme import get_global_styles
 from components.footer import render_footer
 from components.header import render_header
 from components.chat import render_chat
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from backend.data.lesson_loader import get_first_lesson_order, get_lesson_by_order
 
 
 st.set_page_config(
@@ -13,6 +22,14 @@ st.set_page_config(
 )
 
 st.markdown(get_global_styles(), unsafe_allow_html=True)
+
+
+if "current_lesson_id" not in st.session_state:
+    first_lesson = get_lesson_by_order(get_first_lesson_order())
+
+    if first_lesson:
+        st.session_state.current_lesson_id = first_lesson["id"]
+        st.session_state.current_lesson_title = first_lesson["title"]
 
 
 pages = [

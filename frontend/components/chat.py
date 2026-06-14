@@ -19,12 +19,14 @@ def initialize_chat():
 
 def get_backend_response(user_message: str, lesson_id: str | None) -> str:
     try:
+        payload = {
+            "message": user_message,
+            "lesson_id": lesson_id,
+        }
+
         response = requests.post(
             API_URL,
-            json={
-                "message": user_message,
-                "lesson_id": lesson_id
-            },
+            json=payload,
             timeout=30
         )
 
