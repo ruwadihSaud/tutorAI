@@ -245,6 +245,58 @@ def get_global_styles() -> str:
             margin-left: 24px;
         }}
 
+        div[data-testid="stChatMessage"] {{
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+            box-sizing: border-box !important;
+            max-width: 100% !important;
+            border-radius: 14px !important;
+            padding: 10px 12px !important;
+            margin-bottom: 10px !important;
+            border: 1px solid {COLORS["border"]} !important;
+        }}
+
+        div[data-testid="stChatMessage"] * {{
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"]) {{
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+            border-left: 4px solid {COLORS["secondary"]} !important;
+            margin-right: 14px !important;
+        }}
+
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from user"]) {{
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+            border-color: {COLORS["border"]} !important;
+            border-left: 4px solid {COLORS["primary"]} !important;
+            margin-left: 8px !important;
+            margin-right: 0 !important;
+        }}
+
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from user"]) * {{
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stChatMessage"] [data-testid="stChatMessageAvatar"] {{
+            background-color: #DBEAFE !important;
+            border: 1px solid #BFDBFE !important;
+        }}
+
+        div[data-testid="stChatInput"] textarea {{
+            border: 1px solid {COLORS["border"]} !important;
+            border-radius: 12px !important;
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stChatInput"] textarea:focus {{
+            border-color: {COLORS["primary"]} !important;
+            box-shadow: 0 0 0 2px #DBEAFE !important;
+        }}
+
         div[data-testid="stVerticalBlock"]:has(.chat-sticky-marker) {{
             position: sticky !important;
             top: 24px !important;

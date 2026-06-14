@@ -53,14 +53,19 @@ def search_relevant_lesson(user_message: str, min_score: float = 0.25) -> dict |
 
     lessons = load_lessons()
 
+    # نتاكد ان الملف فيه دروس
     if not lessons:
         return None
 
     lesson_texts = [build_lesson_text(lesson) for lesson in lessons]
 
+    #تحويل الرساله الي انبدنق
     query_embedding = model.encode(user_message, convert_to_tensor=True)
+
+    # تحويل محتوى الدروس الى انبدنق
     lesson_embeddings = model.encode(lesson_texts, convert_to_tensor=True)
 
+    # نحسب التشابه بين الرساله ومحتوى الدروس
     scores = util.cos_sim(query_embedding, lesson_embeddings)[0]
 
     best_index = int(scores.argmax())

@@ -3,14 +3,19 @@ import streamlit as st
 
 NAV_ITEMS = [
     {
-        "label": "Dashboard",
-        "icon": "🎯",
-        "page": "pages/Dashboard.py",
+        "label": "TutorAI Chat",
+        "icon": "🛟",
+        "page": "pages/Chat.py",
     },
     {
         "label": "My Learning",
         "icon": "📖",
         "page": "pages/My_Learning.py",
+    },
+    {
+        "label": "Dashboard",
+        "icon": "🎯",
+        "page": "pages/Dashboard.py",
     },
     {
         "label": "Contact Us",

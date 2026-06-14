@@ -43,67 +43,45 @@ def get_backend_response(user_message: str, lesson_id: str | None) -> str:
         return f"Unexpected error: {e}"
 
 
-def render_chat():
+def render_chat(
+    chat_height: int = 360,
+    show_header: bool = True,
+    title: str = "TutorAI Chat",
+    caption: str = "Ask questions about your current lesson.",
+):
     initialize_chat()
 
     with st.container(border=True):
         st.markdown('<div class="chat-card-marker"></div>', unsafe_allow_html=True)
 
-        st.markdown("### TutorAI Chat")
-        st.caption("Ask questions about your current lesson.")
+        if show_header:
+            st.markdown(f"### {title}")
+            st.caption(caption)
+            st.divider()
 
-        st.divider()
-
-        chat_area = st.container(height=360)
+        chat_area = st.container(height=chat_height)
 
         with chat_area:
             for message in st.session_state.chat_messages:
-                if message["role"] == "assistant":
-                    st.markdown(
-                        f"""
-                        <div class="chat-message assistant-message">
-                            <strong>TutorAI</strong><br>
-                            {message["content"]}
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
-                else:
-                    st.markdown(
-                        f"""
-                        <div class="chat-message user-message">
-                            <strong>You</strong><br>
-                            {message["content"]}
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
+                with st.chat_message(message["role"]):
+                    st.write(message["content"])
 
-        with st.form("chat_form", clear_on_submit=True):
-            user_input = st.text_input(
-                "Message",
-                placeholder="Ask TutorAI...",
-                label_visibility="collapsed"
+        if user_input := st.chat_input("Ask TutorAI..."):
+            st.session_state.chat_messages.append(
+                {
+                    "role": "user",
+                    "content": user_input
+                }
             )
 
-            submitted = st.form_submit_button("Send", use_container_width=True)
+            lesson_id = st.session_state.get("current_lesson_id")
+            assistant_reply = get_backend_response(user_input, lesson_id)
 
-            if submitted and user_input.strip():
-                st.session_state.chat_messages.append(
-                    {
-                        "role": "user",
-                        "content": user_input
-                    }
-                )
+            st.session_state.chat_messages.append(
+                {
+                    "role": "assistant",
+                    "content": assistant_reply
+                }
+            )
 
-                lesson_id = st.session_state.get("current_lesson_id")
-                assistant_reply = get_backend_response(user_input, lesson_id)
-
-                st.session_state.chat_messages.append(
-                    {
-                        "role": "assistant",
-                        "content": assistant_reply
-                    }
-                )
-
-                st.rerun()
+            st.rerun()
