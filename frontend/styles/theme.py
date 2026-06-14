@@ -285,16 +285,54 @@ def get_global_styles() -> str:
             border: 1px solid #BFDBFE !important;
         }}
 
-        div[data-testid="stChatInput"] textarea {{
+        div[data-testid="stChatInput"] {{
+            background-color: transparent !important;
+            padding-top: 8px !important;
+        }}
+
+        div[data-testid="stChatInput"] > div {{
+            background-color: {COLORS["surface"]} !important;
             border: 1px solid {COLORS["border"]} !important;
-            border-radius: 12px !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+            padding: 2px 8px !important;
+        }}
+
+        div[data-testid="stChatInput"] [data-baseweb="textarea"],
+        div[data-testid="stChatInput"] [data-baseweb="base-input"],
+        div[data-testid="stChatInput"] [data-baseweb="textarea"] > div {{
             background-color: {COLORS["surface"]} !important;
             color: {COLORS["text"]} !important;
         }}
 
-        div[data-testid="stChatInput"] textarea:focus {{
+        div[data-testid="stChatInput"] textarea {{
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+            border: none !important;
+            box-shadow: none !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            caret-color: {COLORS["text"]} !important;
+            -webkit-text-fill-color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stChatInput"] textarea::placeholder {{
+            color: {COLORS["muted_text"]} !important;
+        }}
+
+        div[data-testid="stChatInput"] > div:focus-within {{
             border-color: {COLORS["primary"]} !important;
-            box-shadow: 0 0 0 2px #DBEAFE !important;
+            box-shadow: 0 0 0 3px #DBEAFE !important;
+        }}
+
+        div[data-testid="stChatInput"] button {{
+            color: {COLORS["primary"]} !important;
+            border-radius: 10px !important;
+        }}
+
+        div[data-testid="stChatInput"] button:hover {{
+            background-color: #EFF6FF !important;
+            color: {COLORS["primary_dark"]} !important;
         }}
 
         div[data-testid="stVerticalBlock"]:has(.chat-sticky-marker) {{
