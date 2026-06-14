@@ -285,6 +285,26 @@ def get_global_styles() -> str:
             border: 1px solid #BFDBFE !important;
         }}
 
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stChatMessageAvatar"] {{
+            background-color: #CCFBF1 !important;
+            border: 1px solid #99F6E4 !important;
+            color: #0F766E !important;
+        }}
+
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from user"])
+        [data-testid="stChatMessageAvatar"] {{
+            background-color: #DBEAFE !important;
+            border: 1px solid #BFDBFE !important;
+            color: {COLORS["primary_dark"]} !important;
+        }}
+
+        div[data-testid="stChatMessage"] [data-testid="stChatMessageAvatar"] svg,
+        div[data-testid="stChatMessage"] [data-testid="stChatMessageAvatar"] * {{
+            color: inherit !important;
+            fill: currentColor !important;
+        }}
+
         div[data-testid="stChatInput"] {{
             background-color: transparent !important;
             padding-top: 8px !important;
