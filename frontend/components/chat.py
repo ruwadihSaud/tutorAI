@@ -1,24 +1,31 @@
-import streamlit as st
+# frontend/components/Chat.py
+
 import requests
+import streamlit as st
+
 
 API_URL = "http://127.0.0.1:8000/chat"
+
 
 def initialize_chat():
     if "chat_messages" not in st.session_state:
         st.session_state.chat_messages = [
             {
                 "role": "assistant",
-                "content": "Hello! I am TutorAI. Tell me your learning goal."
+                "content": "Hello! I am TutorAI. Ask me to summarize, explain, or quiz you on the current lesson."
             }
         ]
 
 
-def get_backend_response(user_message: str) -> str:
+def get_backend_response(user_message: str, lesson_id: str | None) -> str:
     try:
         response = requests.post(
             API_URL,
-            json={"message": user_message},
-            timeout=10
+            json={
+                "message": user_message,
+                "lesson_id": lesson_id
+            },
+            timeout=30
         )
 
         if response.status_code == 200:
@@ -43,7 +50,7 @@ def render_chat():
         st.markdown('<div class="chat-card-marker"></div>', unsafe_allow_html=True)
 
         st.markdown("### TutorAI Chat")
-        st.caption("Ask questions about your learning journey.")
+        st.caption("Ask questions about your current lesson.")
 
         st.divider()
 
@@ -89,7 +96,8 @@ def render_chat():
                     }
                 )
 
-                assistant_reply = get_backend_response(user_input)
+                lesson_id = st.session_state.get("current_lesson_id")
+                assistant_reply = get_backend_response(user_input, lesson_id)
 
                 st.session_state.chat_messages.append(
                     {

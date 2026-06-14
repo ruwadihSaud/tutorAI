@@ -25,6 +25,16 @@ def get_lesson_by_order(order: int):
     return None
 
 
+def get_lesson_by_id(lesson_id: str):
+    lessons = load_lessons()
+
+    for lesson in lessons:
+        if str(lesson["id"]) == str(lesson_id):
+            return lesson
+
+    return None
+
+
 def get_first_lesson_order():
     lessons = load_lessons()
     return lessons[0]["order"]

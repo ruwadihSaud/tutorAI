@@ -15,6 +15,7 @@ app = FastAPI(
 
 class ChatRequest(BaseModel):
     message: str
+    lesson_id: str | None = None
 
 
 class ChatResponse(BaseModel):
@@ -37,6 +38,9 @@ def health_check():
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
-    reply = generate_tutor_reply(request.message)
+    reply = generate_tutor_reply(
+        user_message=request.message,
+        lesson_id=request.lesson_id
+    )
 
     return ChatResponse(reply=reply)

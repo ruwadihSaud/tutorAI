@@ -1,66 +1,50 @@
 # backend/tutor.py
 
-from backend.generators.explanation_generator import generate_explanation
-from backend.generators.general_generator import generate_general
-from backend.generators.help_generator import generate_help
-from backend.generators.learning_plan_generator import generate_learning_plan
-from backend.generators.progress_generator import generate_progress
-from backend.generators.quiz_generator import generate_quiz
+from backend.data.lesson_loader import get_lesson_by_id
+
 from backend.generators.summary_generator import generate_summary
+from backend.generators.quiz_generator import generate_quiz
+from backend.generators.explanation_generator import generate_explanation
+from backend.generators.help_generator import generate_help
+from backend.generators.general_generator import generate_general
 
 
-def generate_tutor_reply(user_message: str) -> str:
-    """
-    Route the student's message to the correct response generator.
-    """
+def detect_intent(user_message: str) -> str:
+    message = user_message.lower()
+
+    if any(word in message for word in ["summarize", "summary", "تلخيص", "لخص", "لخصي"]):
+        return "summary"
+
+    if any(word in message for word in ["quiz", "test", "exam", "اختبار", "اسئلة", "أسئلة"]):
+        return "quiz"
+
+    if any(word in message for word in ["explain", "explanation", "teach", "شرح", "اشرح", "فسر"]):
+        return "explanation"
+
+    if any(word in message for word in ["help", "support", "مساعدة", "ساعدني", "كيف"]):
+        return "help"
+
+    return "general"
+
+
+def generate_tutor_reply(user_message: str, lesson_id: str | None = None) -> str:
     intent = detect_intent(user_message)
 
+    lesson = None
+
+    if lesson_id:
+        lesson = get_lesson_by_id(lesson_id)
+
     if intent == "summary":
-        return generate_summary(user_message)
+        return generate_summary(lesson)
 
     if intent == "quiz":
-        return generate_quiz(user_message)
+        return generate_quiz(lesson)
 
     if intent == "explanation":
-        return generate_explanation(user_message)
-
-    if intent == "progress":
-        return generate_progress(user_message)
-
-    if intent == "learning_plan":
-        return generate_learning_plan(user_message)
+        return generate_explanation(lesson)
 
     if intent == "help":
         return generate_help(user_message)
 
     return generate_general(user_message)
-
-
-def detect_intent(user_message: str) -> str:
-    """
-    Detect the student's intent from the message.
-
-    This is temporary rule-based logic. Later, it can be replaced with an LLM
-    or classifier without changing the generator files.
-    """
-    message = user_message.lower()
-
-    if any(word in message for word in ["quiz", "test", "exam", "question"]):
-        return "quiz"
-
-    if any(word in message for word in ["explain", "teach", "understand", "lesson"]):
-        return "explanation"
-
-    if any(word in message for word in ["summarize", "summary", "review"]):
-        return "summary"
-
-    if any(word in message for word in ["progress", "weak", "score", "performance"]):
-        return "progress"
-
-    if any(word in message for word in ["plan", "learning plan", "study plan", "schedule"]):
-        return "learning_plan"
-
-    if any(word in message for word in ["help", "how to use", "support"]):
-        return "help"
-
-    return "general"
