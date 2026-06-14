@@ -9,6 +9,7 @@ from backend.generators.help_generator import generate_help
 from backend.generators.general_generator import generate_general
 
 
+# يحدد نوع الطلب من رساله الطالب 
 def detect_intent(user_message: str) -> str:
     message = user_message.lower()
 
@@ -28,10 +29,12 @@ def detect_intent(user_message: str) -> str:
 
 
 def generate_tutor_reply(user_message: str, lesson_id: str | None = None) -> str:
+    #تحديد الطلب 
     intent = detect_intent(user_message)
 
     lesson = None
 
+    # حسب الطلب يستدعي اي  من البرومبتات
     if lesson_id:
         lesson = get_lesson_by_id(lesson_id)
 
