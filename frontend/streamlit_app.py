@@ -33,7 +33,6 @@ if "current_lesson_id" not in st.session_state:
 
 
 pages = [
-    st.Page("pages/Chat.py", title="Chat", icon=":material/chat:"),
     st.Page("pages/My_Learning.py", title="My Learning", icon=":material/menu_book:", default=True),
     st.Page("pages/Dashboard.py", title="Dashboard", icon=":material/dashboard:"),
     st.Page("pages/contact.py", title="Contact Us", icon=":material/mail:"),
@@ -43,7 +42,7 @@ pages = [
 selected_page = st.navigation(pages, position="sidebar")
 
 
-if selected_page.title == "Chat":
+if selected_page.title == "My Learning":
     render_header()
     st.divider()
     selected_page.run()

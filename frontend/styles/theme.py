@@ -149,6 +149,13 @@ def get_global_styles() -> str:
             margin: 12px 0 16px 0;
         }}
 
+        .lesson-content {{
+            color: {COLORS["text"]} !important;
+            font-size: 15px !important;
+            line-height: 1.8 !important;
+            margin: 0 !important;
+        }}
+
 
         /* Page Title */
         .page-title {{

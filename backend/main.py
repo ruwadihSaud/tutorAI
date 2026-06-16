@@ -1,46 +1,21 @@
-# backend/main.py
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from backend.tutor import generate_tutor_reply
+from backend.services.ollama_service import ask_ollama
 
-
-app = FastAPI(
-    title="TutorAI Backend",
-    description="Backend API for the TutorAI adaptive tutoring agent",
-    version="1.0.0"
-)
+app = FastAPI()
 
 
 class ChatRequest(BaseModel):
     message: str
-    lesson_id: str | None = None
-
-
-class ChatResponse(BaseModel):
-    reply: str
 
 
 @app.get("/")
 def root():
-    return {
-        "message": "TutorAI FastAPI backend is running."
-    }
+    return {"message": "TutorAI FastAPI backend is running."}
 
 
-@app.get("/health")
-def health_check():
-    return {
-        "status": "ok"
-    }
-
-
-@app.post("/chat", response_model=ChatResponse)
+@app.post("/chat")
 def chat(request: ChatRequest):
-    reply = generate_tutor_reply(
-        user_message=request.message,
-        lesson_id=request.lesson_id
-    )
-
-    return ChatResponse(reply=reply)
+    reply = ask_ollama(request.message)
+    return {"reply": reply}

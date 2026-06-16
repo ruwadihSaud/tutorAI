@@ -3,28 +3,23 @@ import streamlit as st
 
 NAV_ITEMS = [
     {
-        "label": "TutorAI Chat",
-        "icon": "🛟",
-        "page": "pages/Chat.py",
-    },
-    {
         "label": "My Learning",
-        "icon": "📖",
+        "icon": ":material/menu_book:",
         "page": "pages/My_Learning.py",
     },
     {
         "label": "Dashboard",
-        "icon": "🎯",
+        "icon": ":material/dashboard:",
         "page": "pages/Dashboard.py",
     },
     {
         "label": "Contact Us",
-        "icon": "📧",
+        "icon": ":material/mail:",
         "page": "pages/contact.py",
     },
     {
         "label": "Help",
-        "icon": "🛟",
+        "icon": ":material/help:",
         "page": "pages/Help.py",
     },
 ]
@@ -40,6 +35,6 @@ def render_nav():
             if st.button(
                 button_label,
                 use_container_width=True,
-                key=f"nav_{item['label']}"
+                key=f"nav_{item['label']}",
             ):
                 st.switch_page(item["page"])
