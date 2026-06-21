@@ -362,6 +362,16 @@ def get_global_styles() -> str:
             color: {COLORS["primary_dark"]} !important;
         }}
 
+        .start-button-wrap {{
+            width: fit-content;
+            margin-top: 6px;
+        }}
+
+        div[data-testid="stVerticalBlock"]:has(.start-button-wrap) div[data-testid="stButton"] button {{
+            min-width: 96px !important;
+            padding: 8px 18px !important;
+        }}
+
         div[data-testid="stVerticalBlock"]:has(.chat-sticky-marker) {{
             position: sticky !important;
             top: 24px !important;

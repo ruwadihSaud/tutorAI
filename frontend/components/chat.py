@@ -3,8 +3,12 @@
 import requests
 import streamlit as st
 
+from components.learning_journey.lesson_data import get_subjects
+from components.learning_journey.placement_test import render_placement_test
+
 
 API_URL = "http://127.0.0.1:8000/chat"
+PLACEMENT_TEST_URL = "http://127.0.0.1:8000/placement-test"
 
 
 def initialize_chat():
@@ -12,7 +16,8 @@ def initialize_chat():
         st.session_state.chat_messages = [
             {
                 "role": "assistant",
-                "content": "I am TutorAI. Are you ready for your Learning Journey?"
+                "content": "I am TutorAI. Are you ready for your Learning Journey?",
+                "type": "start_prompt"
             }
         ]
 
@@ -21,6 +26,18 @@ def initialize_chat():
 
     if "journey_started" not in st.session_state:
         st.session_state.journey_started = False
+
+    if "selected_subject" not in st.session_state:
+        st.session_state.selected_subject = None
+
+    if "pending_placement_subject" not in st.session_state:
+        st.session_state.pending_placement_subject = None
+
+    if "placement_score" not in st.session_state:
+        st.session_state.placement_score = None
+
+    if "student_level" not in st.session_state:
+        st.session_state.student_level = None
 
 
 def get_backend_response(user_message: str) -> str:
@@ -48,8 +65,26 @@ def get_backend_response(user_message: str) -> str:
         return f"Unexpected error: {e}"
 
 
+def get_placement_test(subject: str) -> dict:
+    try:
+        response = requests.post(
+            PLACEMENT_TEST_URL,
+            json={"subject": subject},
+            timeout=30,
+        )
+        response.raise_for_status()
+        return response.json()
+
+    except requests.exceptions.RequestException as e:
+        return {
+            "reply": f"Could not load the placement test: {e}",
+            "subject": subject,
+            "questions": [],
+        }
+
+
 def start_journey():
-    start_message = "Start my learning journey"
+    start_message = "Let's start my learning journey 🚀"
     st.session_state.journey_started = True
     st.session_state.chat_messages.append(
         {
@@ -57,7 +92,27 @@ def start_journey():
             "content": start_message,
         }
     )
-    st.session_state.pending_user_message = start_message
+    st.session_state.chat_messages.append(
+        {
+            "role": "assistant",
+            "content": "What subject would you like to study?",
+            "type": "subject_selection",
+        }
+    )
+    st.rerun()
+
+
+def select_subject(subject: str):
+    st.session_state.selected_subject = subject
+    st.session_state.placement_score = None
+    st.session_state.student_level = None
+    st.session_state.chat_messages.append(
+        {
+            "role": "user",
+            "content": subject,
+        }
+    )
+    st.session_state.pending_placement_subject = subject
     st.rerun()
 
 
@@ -81,16 +136,64 @@ def render_chat(
 
         with chat_area:
             for message in st.session_state.chat_messages:
+                if message.get("type") == "start_prompt":
+                    with st.chat_message("assistant"):
+                        st.write(message["content"])
+
+                        if not st.session_state.journey_started:
+                            st.markdown('<div class="start-button-wrap">', unsafe_allow_html=True)
+                            st.button(
+                                "Start",
+                                use_container_width=False,
+                                key="start_journey_button",
+                                on_click=start_journey,
+                            )
+                            st.markdown('</div>', unsafe_allow_html=True)
+                    continue
+
+                if message.get("type") == "subject_selection":
+                    with st.chat_message("assistant"):
+                        st.write(message["content"])
+
+                        if not st.session_state.selected_subject:
+                            for subject in get_subjects():
+                                st.button(
+                                    subject,
+                                    use_container_width=False,
+                                    key=f"subject_button_{subject}",
+                                    on_click=select_subject,
+                                    args=(subject,),
+                                )
+                    continue
+
+                if message.get("type") == "placement_test":
+                    with st.chat_message("assistant"):
+                        render_placement_test(message)
+                    continue
+
                 with st.chat_message(message["role"]):
                     st.write(message["content"])
 
-            if not st.session_state.journey_started and not st.session_state.pending_user_message:
-                st.button(
-                    "Start",
-                    use_container_width=True,
-                    key="start_journey_button",
-                    on_click=start_journey,
+            pending_placement_subject = st.session_state.pending_placement_subject
+            if pending_placement_subject:
+                with st.chat_message("assistant"):
+                    with st.spinner("Preparing your placement test..."):
+                        placement_test = get_placement_test(pending_placement_subject)
+
+                st.session_state.chat_messages.append(
+                    {
+                        "role": "assistant",
+                        "content": placement_test.get("reply", "Placement test"),
+                        "type": "placement_test",
+                        "subject": placement_test.get(
+                            "subject",
+                            pending_placement_subject,
+                        ),
+                        "questions": placement_test.get("questions", []),
+                    }
                 )
+                st.session_state.pending_placement_subject = None
+                st.rerun()
 
             pending_user_message = st.session_state.pending_user_message
             if pending_user_message:
@@ -108,6 +211,12 @@ def render_chat(
                 st.rerun()
 
         if not st.session_state.journey_started:
+            return
+
+        if not st.session_state.selected_subject:
+            return
+
+        if st.session_state.placement_score is None:
             return
 
         if user_input := st.chat_input("Ask TutorAI..."):

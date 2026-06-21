@@ -9,7 +9,7 @@ def generate_help(user_message: str) -> str:
 
     return (
         "I can help you use TutorAI in the following ways:\n\n"
-        "1. Ask me to summarize the current lesson.\n"
+        "1. Ask me to summarize the lesson.\n"
         "   Example: summarize this lesson\n\n"
         "2. Ask me to generate a quiz from the current lesson.\n"
         "   Example: create a quiz for this lesson\n\n"
