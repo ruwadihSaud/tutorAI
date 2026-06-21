@@ -1,7 +1,7 @@
 # backend/tutor.py
 
 # يحدد نوع الطلب من رساله الطالب
-from backend.app.services.intent_detector import (
+from backend.services.intent_detector import (
     EXPLANATION_COMMANDS,
     EXPLANATION_FOLLOW_UPS,
     detect_intent,
