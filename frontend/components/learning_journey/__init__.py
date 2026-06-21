@@ -1,1 +1,0 @@
-"""Learning journey UI components."""

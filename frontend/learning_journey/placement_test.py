@@ -1,10 +1,10 @@
 import streamlit as st
 
-from components.learning_journey.lesson_data import (
+from learning_journey.lesson_data import (
     get_level_lessons,
     set_current_lesson,
 )
-from components.learning_journey.state import determine_level
+from learning_journey.state import determine_level
 
 
 def render_placement_test(message: dict) -> None:

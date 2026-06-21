@@ -2,14 +2,14 @@ from html import escape
 
 import streamlit as st
 
-from components.learning_journey.lesson_data import (
+from learning_journey.lesson_data import (
     get_current_lesson,
     get_level_lessons,
     get_next_lesson,
     get_subjects,
     set_current_lesson,
 )
-from components.learning_journey.state import (
+from learning_journey.state import (
     PASSING_SCORE,
     determine_level,
     get_next_level,

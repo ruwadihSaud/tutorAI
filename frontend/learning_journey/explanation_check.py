@@ -31,12 +31,26 @@ def continue_current_lesson(check_id: str) -> None:
     )
 
 
-def request_more_explanation(check_id: str) -> None:
+def request_more_explanation(message: dict) -> None:
+    check_id = message["check_id"]
     _resolve_check(check_id)
-    follow_up = (
-        "I still do not understand this point. Explain it more simply, "
-        "step by step, using a different practical example."
-    )
+    if message.get("explanation_scope") == "current_lesson":
+        follow_up = (
+            "I need a simpler explanation. I still do not understand the current "
+            "lesson. Explain this lesson "
+            "more simply, step by step, using a different practical example."
+        )
+    else:
+        original_request = message.get(
+            "explanation_request",
+            "the current lesson",
+        )
+        follow_up = (
+            "I need a simpler explanation. "
+            f"I still do not understand the explanation for: {original_request}\n"
+            "Explain the same topic more simply, step by step, using a different "
+            "practical example."
+        )
     st.session_state.chat_messages.append(
         {
             "role": "user",
@@ -55,7 +69,7 @@ def render_explanation_check(message: dict) -> None:
     if check_id in resolved_checks:
         return
 
-    st.caption("Did you understand the explanation?")
+    st.caption("Did you understand this explanation, or do you need more detail?")
     understood_col, explain_more_col = st.columns(2)
 
     with understood_col:
@@ -73,5 +87,5 @@ def render_explanation_check(message: dict) -> None:
             use_container_width=True,
             key=f"explain_more_{check_id}",
         ):
-            request_more_explanation(check_id)
+            request_more_explanation(message)
             st.rerun()

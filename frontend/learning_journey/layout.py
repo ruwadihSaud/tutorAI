@@ -2,7 +2,7 @@ from html import escape
 
 import streamlit as st
 
-from components.learning_journey.lesson_data import calculate_progress
+from learning_journey.lesson_data import calculate_progress
 
 
 def render_page_title() -> None:

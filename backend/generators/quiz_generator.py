@@ -1,4 +1,4 @@
-# ط¹ظ…ظ„ ط§ط®طھط¨ط§ط± ظ‚طµظٹط±
+
 # backend/generators/quiz_generator.py
 
 import json

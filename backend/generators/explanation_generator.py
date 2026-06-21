@@ -2,41 +2,13 @@
 # backend/generators/explanation_generator.py
 
 
-from backend.services.ollama_service import ask_ollama
-
-
-EXPLANATION_KEYWORDS = [
-    "explain",
-    "explanation",
-    "teach me",
-    "clarify",
-    "what does",
-    "what is",
-    "what is meant",
-    "why",
-    "how does",
-    "understand",
-    "اشرح",
-    "شرح",
-    "وضح",
-    "فسر",
-    "فهمني",
-    "ما معنى",
-    "وش يعني",
-    "ليش",
-    "كيف",
-    "ما فهمت",
-]
-
-
-def is_explanation_request(user_message: str) -> bool:
-    message = user_message.lower().strip()
-    return any(keyword in message for keyword in EXPLANATION_KEYWORDS)
+from backend.services.LLM import ask_llm
 
 
 def generate_explanation(
     user_message: str,
     lesson: dict | None = None,
+    explanation_scope: str = "specific_topic",
 ) -> str:
     if not lesson:
         return "I could not find the current lesson. Please select a lesson first."
@@ -47,14 +19,25 @@ def generate_explanation(
     if not content or len(content.split()) < 20:
         return "The selected lesson does not have enough content to explain."
 
+    if explanation_scope == "current_lesson":
+        explanation_instruction = (
+            "The student did not identify a specific point. Explain the complete "
+            "lesson currently displayed, focusing on its main idea and key concepts."
+        )
+    else:
+        explanation_instruction = (
+            "The student identified a topic or point. Explain that exact topic and "
+            "use the retrieved lesson as the main source."
+        )
+
     prompt = (
         f"Current lesson title: {title}\n\n"
         f"Current lesson content:\n{content}\n\n"
         f"Student question:\n{user_message}\n\n"
-        "Explain the exact point the student asked about using the current lesson "
-        "as the main context. Use simple language and one practical example. "
-        "Do not discuss unrelated topics. Do not ask a check-for-understanding "
-        "question because the interface will show understanding buttons."
+        f"Explanation mode:\n{explanation_instruction}\n\n"
+        "Use simple language, explain step by step, and include one practical "
+        "example. Do not discuss unrelated topics. The interface will ask whether "
+        "the student understood, so do not add a separate understanding question."
     )
 
     system_prompt = (
@@ -64,4 +47,4 @@ def generate_explanation(
         "question and avoid adding unrelated information."
     )
 
-    return ask_ollama(prompt, system_prompt=system_prompt)
+    return ask_llm(prompt, system_prompt=system_prompt)

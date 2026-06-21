@@ -2,78 +2,140 @@
 
 from backend.data.lesson_loader import get_lesson_by_id
 
-from backend.generators.summary_generator import generate_summary
-from backend.generators.quiz_generator import generate_placement_test, generate_quiz
-from backend.generators.explanation_generator import (
-    generate_explanation,
-    is_explanation_request,
-)
-from backend.generators.help_generator import generate_help
+from backend.generators.explanation_generator import generate_explanation
 from backend.generators.general_generator import generate_general
-from backend.services.ollama_service import ask_ollama, is_ollama_error
+from backend.generators.help_generator import generate_help
+from backend.generators.learning_plan_generator import generate_learning_plan
+from backend.generators.progress_generator import generate_progress
+from backend.generators.quiz_generator import generate_placement_test, generate_quiz
+from backend.generators.summary_generator import generate_summary
+from backend.services.LLM import is_llm_error
+
+
+INTENT_KEYWORDS = {
+    "summary": [
+        "summarize", "summary", "summarise",
+        "لخص", "لخصي", "تلخيص", "اختصر", "اختصري",
+        "اهم النقاط", "أهم النقاط", "الزبدة",
+    ],
+    "quiz": [
+        "quiz", "test", "exam", "questions",
+        "اختبار", "اختبرني", "اسئلة", "أسئلة",
+        "سوي اختبار", "اعمل اختبار", "تدريب",
+    ],
+    "explanation": [
+        "explain", "explanation", "teach me", "teach", "clarify",
+        "what does", "what is", "what is meant", "why", "how does",
+        "understand", "اشرح", "شرح", "وضح", "فسر", "فهمني",
+        "ما معنى", "وش يعني", "ليش", "كيف", "ما فهمت",
+    ],
+    "help": [
+        "help", "support", "مساعدة", "ساعدني",
+        "وش اقدر اسوي", "كيف استخدم", "كيف أستخدم",
+    ],
+    "progress": [
+        "progress", "my progress", "how am i doing",
+        "تقدمي", "تقدمي الدراسي", "مستواي", "كيف مستواي",
+    ],
+    "learning_plan": [
+        "learning plan", "study plan", "learning path",
+        "خطة تعلم", "خطة دراسة", "مسار تعلم",
+    ],
+}
+
+
+CURRENT_LESSON_EXPLANATION_PHRASES = [
+    "this lesson",
+    "current lesson",
+    "this topic",
+    "current topic",
+    "this content",
+    "this point",
+    "explain it",
+    "explain more",
+    "هذا الدرس",
+    "الدرس الحالي",
+    "هذا الموضوع",
+    "الموضوع الحالي",
+    "هذا المحتوى",
+    "هذه النقطة",
+    "اشرحه",
+    "اشرح اكثر",
+    "اشرح أكثر",
+]
+
+
+GENERAL_EXPLANATION_REQUESTS = {
+    "explain",
+    "explain please",
+    "explain the lesson",
+    "i do not understand",
+    "i don't understand",
+    "اشرح",
+    "اشرح لي",
+    "اشرح الدرس",
+    "وضح",
+    "وضح لي",
+    "فهمني",
+    "ما فهمت",
+}
+
+
+EXPLANATION_FOLLOW_UP_PHRASES = [
+    "i need a simpler explanation",
+    "simpler explanation",
+    "explain it more simply",
+    "explain more simply",
+    "still do not understand",
+    "still don't understand",
+    "need more explanation",
+    "احتاج شرح ابسط",
+    "أحتاج شرح أبسط",
+    "اشرح بشكل ابسط",
+    "اشرح بشكل أبسط",
+    "ما زلت لا افهم",
+    "ما زلت لا أفهم",
+]
+
+
+EXPLANATION_COMMAND_PREFIXES = (
+    "explain ",
+    "clarify ",
+    "teach me ",
+    "اشرح ",
+    "وضح ",
+    "فسر ",
+    "فهمني ",
+)
 
 
 # يحدد نوع الطلب من رساله الطالب 
 def detect_intent(user_message: str) -> str:
     message = user_message.lower().strip()
 
-    if is_explanation_request(user_message):
+    if any(phrase in message for phrase in EXPLANATION_FOLLOW_UP_PHRASES):
         return "explanation"
 
-    if any(
-        keyword in message
-        for keyword in ["لخص", "تلخيص", "اختصر", "أهم النقاط", "الزبدة"]
-    ):
-        return "summary"
-
-    if any(
-        keyword in message
-        for keyword in ["اختبار", "اختبرني", "أسئلة", "تدريب"]
-    ):
-        return "quiz"
-
-    if any(
-        keyword in message
-        for keyword in ["مساعدة", "ساعدني", "كيف أستخدم"]
-    ):
-        return "help"
-
-    summary_keywords = [
-        "summarize", "summary", "summarise",
-        "لخص", "لخصي", "تلخيص", "اختصر", "اختصري",
-        "اهم النقاط", "أهم النقاط", "الزبدة"
-    ]
-
-    quiz_keywords = [
-        "quiz", "test", "exam", "questions",
-        "اختبار", "اختبرني", "اسئلة", "أسئلة",
-        "سوي اختبار", "اعمل اختبار", "تدريب"
-    ]
-
-    explanation_keywords = [
-        "explain", "explanation", "teach", "understand",
-        "اشرح", "شرح", "فسر", "وضح", "فهمني",
-        "ما فهمت"
-    ]
-
-    help_keywords = [
-        "help", "support", "مساعدة", "ساعدني",
-        "وش اقدر اسوي", "كيف استخدم"
-    ]
-
-    if any(keyword in message for keyword in summary_keywords):
-        return "summary"
-
-    if any(keyword in message for keyword in quiz_keywords):
-        return "quiz"
-
-    if any(keyword in message for keyword in explanation_keywords):
+    if message.startswith(EXPLANATION_COMMAND_PREFIXES):
         return "explanation"
 
-    if any(keyword in message for keyword in help_keywords):
-        return "help"
+    for intent, keywords in INTENT_KEYWORDS.items():
+        if any(keyword in message for keyword in keywords):
+            return intent
 
     return "general"
+
+
+def detect_explanation_scope(user_message: str) -> str:
+    message = user_message.lower().strip()
+
+    if message in GENERAL_EXPLANATION_REQUESTS:
+        return "current_lesson"
+
+    if any(phrase in message for phrase in CURRENT_LESSON_EXPLANATION_PHRASES):
+        return "current_lesson"
+
+    return "specific_topic"
 
 
 def _message_response(reply: str) -> dict:
@@ -97,6 +159,25 @@ def _resolve_lesson(user_message: str, lesson_id: str | None) -> dict | None:
     )
 
 
+def _resolve_explanation_lesson(
+    user_message: str,
+    lesson_id: str | None,
+    explanation_scope: str,
+) -> dict | None:
+    current_lesson = get_lesson_by_id(lesson_id) if lesson_id else None
+
+    if explanation_scope == "current_lesson":
+        return current_lesson
+
+    from backend.rag.lesson_retriever import retrieve_lesson
+
+    relevant_lesson = retrieve_lesson(
+        user_message=user_message,
+        current_lesson_id=lesson_id,
+    )
+    return relevant_lesson or current_lesson
+
+
 def generate_tutor_reply(
     user_message: str,
     lesson_id: str | None = None,
@@ -112,12 +193,27 @@ def generate_tutor_reply(
     intent = detect_intent(user_message)
 
     if intent == "general":
-        return _message_response(ask_ollama(user_message))
+        return _message_response(generate_general(user_message))
 
     if intent == "help":
         return _message_response(generate_help(user_message))
 
-    lesson = _resolve_lesson(user_message, lesson_id)
+    if intent == "progress":
+        return _message_response(generate_progress(user_message))
+
+    if intent == "learning_plan":
+        return _message_response(generate_learning_plan(user_message))
+
+    explanation_scope = None
+    if intent == "explanation":
+        explanation_scope = detect_explanation_scope(user_message)
+        lesson = _resolve_explanation_lesson(
+            user_message,
+            lesson_id,
+            explanation_scope,
+        )
+    else:
+        lesson = _resolve_lesson(user_message, lesson_id)
 
     if lesson is None:
         return _message_response(
@@ -132,11 +228,16 @@ def generate_tutor_reply(
         return _message_response(generate_quiz(lesson))
 
     if intent == "explanation":
-        reply = generate_explanation(user_message, lesson)
+        reply = generate_explanation(
+            user_message,
+            lesson,
+            explanation_scope=explanation_scope or "specific_topic",
+        )
         return {
             "reply": reply,
+            "explanation_scope": explanation_scope,
             "response_type": (
-                "message" if is_ollama_error(reply) else "explanation_check"
+                "message" if is_llm_error(reply) else "explanation_check"
             ),
         }
 

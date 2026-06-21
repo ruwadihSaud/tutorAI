@@ -3,10 +3,10 @@
 import requests
 import streamlit as st
 
-from components.learning_journey.lesson_data import get_subjects
-from components.learning_journey.lesson_box import render_lesson_box
-from components.learning_journey.explanation_check import render_explanation_check
-from components.learning_journey.placement_test import render_placement_test
+from learning_journey.explanation_check import render_explanation_check
+from learning_journey.lesson_box import render_lesson_box
+from learning_journey.lesson_data import get_subjects
+from learning_journey.placement_test import render_placement_test
 
 
 API_URL = "http://127.0.0.1:8000/chat"
@@ -262,6 +262,11 @@ def render_chat(
                     and not is_error_reply
                 ):
                     assistant_message["type"] = "explanation_check"
+                    assistant_message["explanation_request"] = pending_user_message
+                    assistant_message["explanation_scope"] = backend_response.get(
+                        "explanation_scope",
+                        "specific_topic",
+                    )
                     assistant_message["check_id"] = (
                         f"explanation_{len(st.session_state.chat_messages)}"
                     )
