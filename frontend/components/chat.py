@@ -156,14 +156,22 @@ def render_chat(
                         st.write(message["content"])
 
                         if not st.session_state.selected_subject:
-                            for subject in get_subjects():
-                                st.button(
-                                    subject,
-                                    use_container_width=False,
-                                    key=f"subject_button_{subject}",
-                                    on_click=select_subject,
-                                    args=(subject,),
-                                )
+                            subjects = get_subjects()
+
+                            if subjects:
+                                subject_columns = st.columns(len(subjects))
+
+                                for column, subject in zip(subject_columns, subjects):
+                                    with column:
+                                        st.button(
+                                            subject,
+                                            use_container_width=True,
+                                            key=f"subject_button_{subject}",
+                                            on_click=select_subject,
+                                            args=(subject,),
+                                        )
+                            else:
+                                st.warning("No subjects are available.")
                     continue
 
                 if message.get("type") == "placement_test":

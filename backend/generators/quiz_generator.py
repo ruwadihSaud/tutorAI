@@ -1,10 +1,16 @@
-# عمل اختبار قصير
+# ط¹ظ…ظ„ ط§ط®طھط¨ط§ط± ظ‚طµظٹط±
 # backend/generators/quiz_generator.py
 
-
+import json
 import random
+from pathlib import Path
 
 from backend.data.lesson_loader import load_lessons
+
+
+PLACEMENT_TESTS_PATH = (
+    Path(__file__).resolve().parents[1] / "data" / "placement_tests.json"
+)
 
 
 def generate_quiz(lesson: dict | None = None) -> str:
@@ -27,98 +33,69 @@ def generate_quiz(lesson: dict | None = None) -> str:
     )
 
 
-def _first_sentence(content: str) -> str:
-    sentence = content.split(".", 1)[0].strip()
-    return f"{sentence}." if sentence else content
+def load_placement_tests() -> dict[str, dict[str, list[dict]]]:
+    with open(PLACEMENT_TESTS_PATH, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 
-def _unique_options(
-    correct: str,
-    distractors: list[str],
-    seed: str,
-) -> list[str]:
-    options = [correct]
+def _prepare_question(question: dict, level: str) -> dict:
+    option_items = list(question["options"].items())
+    correct_text = question["options"][question["answer"]]
+    random.shuffle(option_items)
 
-    for option in distractors:
-        if option and option not in options:
-            options.append(option)
+    displayed_options = []
+    correct_answer = ""
 
-        if len(options) == 3:
-            break
+    for index, (_, option_text) in enumerate(option_items):
+        display_letter = chr(ord("A") + index)
+        displayed_option = f"{display_letter}. {option_text}"
+        displayed_options.append(displayed_option)
 
-    random.Random(seed).shuffle(options)
-    return options
+        if option_text == correct_text:
+            correct_answer = displayed_option
+
+    return {
+        "id": question["id"],
+        "question": question["question"],
+        "options": displayed_options,
+        "correct_answer": correct_answer,
+        "source_level": level,
+    }
 
 
 def generate_placement_test(subject: str) -> dict:
     all_lessons = load_lessons()
-    subject_lessons = sorted(
-        [lesson for lesson in all_lessons if lesson["subject"] == subject],
-        key=lambda lesson: (lesson["order"], lesson["level"]),
-    )
+    subject_exists = any(lesson["subject"] == subject for lesson in all_lessons)
 
-    if not subject_lessons:
+    if not subject_exists:
         return {
             "reply": f"I could not find lessons for {subject}.",
             "subject": subject,
             "questions": [],
         }
 
-    other_lessons = [
-        lesson for lesson in all_lessons if lesson["subject"] != subject
-    ]
-    beginner_lessons = [
-        lesson for lesson in subject_lessons if lesson["level"] == "Beginner"
-    ] or subject_lessons
-    advanced_lessons = [
-        lesson for lesson in subject_lessons if lesson["level"] == "Advanced"
-    ] or subject_lessons[-1:]
+    placement_tests = load_placement_tests()
+    subject_question_bank = placement_tests.get(subject, {})
+    questions = []
 
-    first_lesson = beginner_lessons[0]
-    advanced_lesson = advanced_lessons[0]
-    title_distractors = [lesson["title"] for lesson in other_lessons]
-    description_distractors = [
-        _first_sentence(lesson["content"])
-        for lesson in subject_lessons[1:]
-    ]
+    for level in ["Beginner", "Intermediate", "Advanced"]:
+        level_questions = subject_question_bank.get(level, [])
+        selected_questions = random.sample(
+            level_questions,
+            k=min(2, len(level_questions)),
+        )
+        questions.extend(
+            _prepare_question(question, level)
+            for question in selected_questions
+        )
 
-    questions = [
-        {
-            "id": "subject_foundation",
-            "question": f"Which topic is part of the {subject} learning path?",
-            "options": _unique_options(
-                first_lesson["title"],
-                title_distractors,
-                f"{subject}:subject_foundation",
-            ),
-            "correct_answer": first_lesson["title"],
-        },
-        {
-            "id": "concept_understanding",
-            "question": f"Which description best matches {first_lesson['title']}?",
-            "options": _unique_options(
-                _first_sentence(first_lesson["content"]),
-                description_distractors,
-                f"{subject}:concept_understanding",
-            ),
-            "correct_answer": _first_sentence(first_lesson["content"]),
-        },
-        {
-            "id": "advanced_awareness",
-            "question": f"Which topic belongs to the advanced {subject} material?",
-            "options": _unique_options(
-                advanced_lesson["title"],
-                [lesson["title"] for lesson in beginner_lessons],
-                f"{subject}:advanced_awareness",
-            ),
-            "correct_answer": advanced_lesson["title"],
-        },
-    ]
+    random.shuffle(questions)
 
     return {
         "reply": (
             f"Great choice. You will start with a short placement test in {subject} "
-            "so TutorAI can choose the right level for you."
+            "so TutorAI can choose the right level for you. Choose one answer "
+            "for each question, then submit the test."
         ),
         "subject": subject,
         "questions": questions,

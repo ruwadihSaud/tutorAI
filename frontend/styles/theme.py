@@ -398,6 +398,83 @@ def get_global_styles() -> str:
             border-color: {COLORS["primary_dark"]} !important;
         }}
 
+        /* Placement test */
+        div[data-testid="stForm"]:has(.placement-test-marker) {{
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+            border: 1px solid {COLORS["border"]} !important;
+            border-radius: 12px !important;
+            padding: 16px !important;
+            box-shadow: none !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker) * {{
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        div[data-testid="stRadio"] {{
+            background-color: {COLORS["surface"]} !important;
+            border-bottom: 1px solid {COLORS["border"]} !important;
+            padding: 12px 0 16px 0 !important;
+            margin-bottom: 4px !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        div[data-testid="stWidgetLabel"] p {{
+            color: {COLORS["text"]} !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            line-height: 1.5 !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        div[role="radiogroup"] {{
+            gap: 8px !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        label[data-baseweb="radio"] {{
+            width: 100% !important;
+            background-color: #F8FAFC !important;
+            border: 1px solid {COLORS["border"]} !important;
+            border-radius: 10px !important;
+            padding: 9px 11px !important;
+            margin: 0 !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        label[data-baseweb="radio"]:hover {{
+            background-color: #EFF6FF !important;
+            border-color: #93C5FD !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        label[data-baseweb="radio"]:has(input:checked) {{
+            background-color: #EFF6FF !important;
+            border-color: {COLORS["primary"]} !important;
+            box-shadow: 0 0 0 1px {COLORS["primary"]} !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        input[type="radio"] {{
+            accent-color: {COLORS["primary"]} !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        div[data-testid="stFormSubmitButton"] button {{
+            width: 100% !important;
+            background-color: {COLORS["primary"]} !important;
+            color: #FFFFFF !important;
+            border-color: {COLORS["primary_dark"]} !important;
+            margin-top: 12px !important;
+        }}
+
+        div[data-testid="stForm"]:has(.placement-test-marker)
+        div[data-testid="stFormSubmitButton"] button * {{
+            color: #FFFFFF !important;
+        }}
+
 
         /* Footer */
         footer {{

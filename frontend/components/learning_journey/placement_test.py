@@ -25,6 +25,10 @@ def render_placement_test(message: dict) -> None:
     subject = message.get("subject", st.session_state.selected_subject)
 
     with st.form(f"placement_test_{subject}"):
+        st.markdown(
+            '<div class="placement-test-marker"></div>',
+            unsafe_allow_html=True,
+        )
         answers = {}
 
         for index, question in enumerate(questions, start=1):

@@ -1,0 +1,228 @@
+{
+  "Machine Learning": {
+    "Beginner": [
+      {
+        "id": "ml_b_q01",
+        "question": "What is Machine Learning mainly about?",
+        "options": {
+          "A": "Learning patterns from data to make predictions or decisions",
+          "B": "Writing every rule manually for the computer",
+          "C": "Designing computer hardware"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "ml_b_q02",
+        "question": "Which one is an example of data used in Machine Learning?",
+        "options": {
+          "A": "A table of house prices and house sizes",
+          "B": "The color of the computer case only",
+          "C": "The power cable of the computer"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "ml_b_q03",
+        "question": "What does a Machine Learning model learn from?",
+        "options": {
+          "A": "Examples in the data",
+          "B": "Random guesses only",
+          "C": "Electricity only"
+        },
+        "answer": "A"
+      }
+    ],
+    "Intermediate": [
+      {
+        "id": "ml_i_q01",
+        "question": "In supervised learning, what is included in the training data?",
+        "options": {
+          "A": "Input data with correct target values or labels",
+          "B": "Only unlabeled data with no target values",
+          "C": "Only the model's final predictions"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "ml_i_q02",
+        "question": "Which task is usually a regression problem?",
+        "options": {
+          "A": "Predicting the price of a house",
+          "B": "Classifying an email as spam or not spam",
+          "C": "Grouping customers without labels"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "ml_i_q03",
+        "question": "Which task is usually a classification problem?",
+        "options": {
+          "A": "Predicting whether an email is spam or not spam",
+          "B": "Predicting the exact temperature tomorrow",
+          "C": "Predicting the price of a car"
+        },
+        "answer": "A"
+      }
+    ],
+    "Advanced": [
+      {
+        "id": "ml_a_q01",
+        "question": "What is the main purpose of regularization in Machine Learning?",
+        "options": {
+          "A": "To reduce overfitting by limiting model complexity",
+          "B": "To make the model memorize the training data",
+          "C": "To remove the need for training data"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "ml_a_q02",
+        "question": "What does cross-validation help estimate?",
+        "options": {
+          "A": "How well the model may perform on unseen data",
+          "B": "How many files are stored on the computer",
+          "C": "How fast the keyboard types"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "ml_a_q03",
+        "question": "What does overfitting mean?",
+        "options": {
+          "A": "The model performs well on training data but poorly on new data",
+          "B": "The model is too simple to learn any pattern",
+          "C": "The dataset has no columns"
+        },
+        "answer": "A"
+      }
+    ]
+  },
+  "Deep Learning": {
+    "Beginner": [
+      {
+        "id": "dl_b_q01",
+        "question": "What is Deep Learning mainly based on?",
+        "options": {
+          "A": "Neural networks with multiple layers",
+          "B": "Writing all rules manually",
+          "C": "Only storing data in tables"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_b_q02",
+        "question": "Why is Deep Learning useful?",
+        "options": {
+          "A": "It can learn complex patterns from large amounts of data",
+          "B": "It removes the need for data completely",
+          "C": "It only works for simple arithmetic problems"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_b_q03",
+        "question": "What is a neural network inspired by?",
+        "options": {
+          "A": "The way biological neurons are connected",
+          "B": "The design of computer keyboards",
+          "C": "The order of files in a folder"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_b_q04",
+        "question": "Which one is a common Deep Learning application?",
+        "options": {
+          "A": "Image recognition",
+          "B": "Changing the color of a laptop",
+          "C": "Turning off the internet"
+        },
+        "answer": "A"
+      }
+    ],
+    "Intermediate": [
+      {
+        "id": "dl_i_q01",
+        "question": "What is the role of an activation function in a neural network?",
+        "options": {
+          "A": "It helps the network learn non-linear patterns",
+          "B": "It deletes the training data",
+          "C": "It changes the file format only"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_i_q02",
+        "question": "What happens during neural network training?",
+        "options": {
+          "A": "The model updates its weights to reduce prediction error",
+          "B": "The model removes all layers",
+          "C": "The computer randomly deletes examples"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_i_q03",
+        "question": "What is the purpose of a loss function?",
+        "options": {
+          "A": "To measure how wrong the model's predictions are",
+          "B": "To increase the number of images",
+          "C": "To replace the dataset"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_i_q04",
+        "question": "What does backpropagation help with?",
+        "options": {
+          "A": "Updating weights based on the prediction error",
+          "B": "Displaying images on the screen",
+          "C": "Choosing the computer operating system"
+        },
+        "answer": "A"
+      }
+    ],
+    "Advanced": [
+      {
+        "id": "dl_a_q01",
+        "question": "What is the main purpose of dropout in Deep Learning?",
+        "options": {
+          "A": "To reduce overfitting by randomly ignoring some neurons during training",
+          "B": "To remove the need for a loss function",
+          "C": "To make the model memorize every training example"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_a_q02",
+        "question": "Why are convolutional neural networks commonly used for images?",
+        "options": {
+          "A": "They can learn spatial patterns such as edges, shapes, and textures",
+          "B": "They only work with text files",
+          "C": "They remove pixels before training"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_a_q03",
+        "question": "What problem can vanishing gradients cause?",
+        "options": {
+          "A": "Early layers learn very slowly because gradients become too small",
+          "B": "The dataset becomes larger automatically",
+          "C": "The model stops needing training"
+        },
+        "answer": "A"
+      },
+      {
+        "id": "dl_a_q04",
+        "question": "What is transfer learning commonly used for?",
+        "options": {
+          "A": "Using a pre-trained model and adapting it to a new task",
+          "B": "Moving files from one folder to another",
+          "C": "Deleting old model weights before training"
+        },
+        "answer": "A"
+      }
+    ]
+  }
+}
