@@ -57,6 +57,8 @@ def render_placement_test(message: dict) -> None:
     st.session_state.placement_score = score
     st.session_state.student_level = level
     st.session_state.student_stage = "learning"
+    st.session_state.completed_lessons = []
+    st.session_state.level_lessons_completed = False
 
     if level_lessons:
         set_current_lesson(level_lessons[0])
@@ -74,6 +76,13 @@ def render_placement_test(message: dict) -> None:
                 f"Your placement score is {score}%. Your starting level is "
                 f"{level}."
             ),
+        }
+    )
+    st.session_state.chat_messages.append(
+        {
+            "role": "assistant",
+            "content": "Your first lesson is ready.",
+            "type": "lesson_box",
         }
     )
     st.rerun()

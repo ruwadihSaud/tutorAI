@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from backend.generators.quiz_generator import generate_placement_test
-from backend.services.ollama_service import ask_ollama
+from backend.tutor import generate_placement_test_reply, generate_tutor_reply
 
 app = FastAPI()
 
 
 class ChatRequest(BaseModel):
     message: str
+    lesson_id: str | None = None
 
 
 class PlacementTestRequest(BaseModel):
@@ -22,10 +22,12 @@ def root():
 
 @app.post("/chat")
 def chat(request: ChatRequest):
-    reply = ask_ollama(request.message)
-    return {"reply": reply}
+    return generate_tutor_reply(
+        user_message=request.message,
+        lesson_id=request.lesson_id,
+    )
 
 
 @app.post("/placement-test")
 def placement_test(request: PlacementTestRequest):
-    return generate_placement_test(request.subject)
+    return generate_placement_test_reply(request.subject)

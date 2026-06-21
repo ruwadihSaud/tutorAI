@@ -4,6 +4,8 @@ import requests
 import streamlit as st
 
 from components.learning_journey.lesson_data import get_subjects
+from components.learning_journey.lesson_box import render_lesson_box
+from components.learning_journey.explanation_check import render_explanation_check
 from components.learning_journey.placement_test import render_placement_test
 
 
@@ -39,30 +41,48 @@ def initialize_chat():
     if "student_level" not in st.session_state:
         st.session_state.student_level = None
 
+    if "resolved_explanation_checks" not in st.session_state:
+        st.session_state.resolved_explanation_checks = []
 
-def get_backend_response(user_message: str) -> str:
+
+def get_backend_response(user_message: str) -> dict:
     try:
         response = requests.post(
             API_URL,
-            json={"message": user_message},
+            json={
+                "message": user_message,
+                "lesson_id": st.session_state.get("current_lesson_id"),
+            },
             timeout=180,
         )
         response.raise_for_status()
         data = response.json()
 
-        return data.get("reply", "No reply received from backend.")
+        return data
 
     except requests.exceptions.ConnectionError:
-        return "Cannot connect to TutorAI backend. Make sure FastAPI is running."
+        return {
+            "reply": "Cannot connect to TutorAI backend. Make sure FastAPI is running.",
+            "response_type": "message",
+        }
 
     except requests.exceptions.Timeout:
-        return "TutorAI is still waiting for Ollama. If this is the first request, the model may still be loading."
+        return {
+            "reply": "TutorAI is still waiting for Ollama. If this is the first request, the model may still be loading.",
+            "response_type": "message",
+        }
 
     except requests.exceptions.RequestException as e:
-        return f"Backend connection error: {e}"
+        return {
+            "reply": f"Backend connection error: {e}",
+            "response_type": "message",
+        }
 
     except Exception as e:
-        return f"Unexpected error: {e}"
+        return {
+            "reply": f"Unexpected error: {e}",
+            "response_type": "message",
+        }
 
 
 def get_placement_test(subject: str) -> dict:
@@ -179,6 +199,17 @@ def render_chat(
                         render_placement_test(message)
                     continue
 
+                if message.get("type") == "lesson_box":
+                    with st.chat_message("assistant"):
+                        st.write(message["content"])
+                        render_lesson_box()
+                    continue
+
+                if message.get("type") == "explanation_check":
+                    with st.chat_message("assistant"):
+                        render_explanation_check(message)
+                    continue
+
                 with st.chat_message(message["role"]):
                     st.write(message["content"])
 
@@ -207,14 +238,35 @@ def render_chat(
             if pending_user_message:
                 with st.chat_message("assistant"):
                     with st.spinner("TutorAI is thinking..."):
-                        assistant_reply = get_backend_response(pending_user_message)
+                        backend_response = get_backend_response(pending_user_message)
 
-                st.session_state.chat_messages.append(
-                    {
-                        "role": "assistant",
-                        "content": assistant_reply,
-                    }
+                assistant_message = {
+                    "role": "assistant",
+                    "content": backend_response.get(
+                        "reply",
+                        "No reply received from backend.",
+                    ),
+                }
+
+                reply_text = assistant_message["content"]
+                is_error_reply = (
+                    reply_text.startswith("Ollama connection error:")
+                    or reply_text.startswith("Backend connection error:")
+                    or reply_text.startswith("Cannot connect to TutorAI backend.")
+                    or reply_text.startswith("TutorAI is still waiting for Ollama.")
+                    or reply_text.startswith("Unexpected response format from Ollama.")
                 )
+
+                if (
+                    backend_response.get("response_type") == "explanation_check"
+                    and not is_error_reply
+                ):
+                    assistant_message["type"] = "explanation_check"
+                    assistant_message["check_id"] = (
+                        f"explanation_{len(st.session_state.chat_messages)}"
+                    )
+
+                st.session_state.chat_messages.append(assistant_message)
                 st.session_state.pending_user_message = None
                 st.rerun()
 

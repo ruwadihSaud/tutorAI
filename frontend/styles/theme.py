@@ -475,6 +475,48 @@ def get_global_styles() -> str:
             color: #FFFFFF !important;
         }}
 
+        /* Lesson box */
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.lesson-box-marker) {{
+            position: relative !important;
+            top: auto !important;
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+            border: 1px solid {COLORS["border"]} !important;
+            border-radius: 12px !important;
+            padding: 16px !important;
+            box-shadow: none !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.lesson-box-marker) * {{
+            color: {COLORS["text"]} !important;
+        }}
+
+        .lesson-box-heading h3 {{
+            color: {COLORS["text"]} !important;
+            font-size: 20px !important;
+            line-height: 1.4 !important;
+            margin: 4px 0 10px 0 !important;
+        }}
+
+        .lesson-box-step {{
+            color: {COLORS["primary"]} !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.lesson-box-marker)
+        div[data-testid="stButton"] button {{
+            background-color: {COLORS["primary"]} !important;
+            color: #FFFFFF !important;
+            border-color: {COLORS["primary_dark"]} !important;
+            margin-top: 12px !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.lesson-box-marker)
+        div[data-testid="stButton"] button * {{
+            color: #FFFFFF !important;
+        }}
+
 
         /* Footer */
         footer {{
