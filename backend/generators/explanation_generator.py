@@ -2,6 +2,7 @@
 # backend/generators/explanation_generator.py
 
 
+from backend.generators.general_generator import generate_general_system_prompt
 from backend.services.LLM import ask_llm
 
 
@@ -40,11 +41,14 @@ def generate_explanation(
         "the student understood, so do not add a separate understanding question."
     )
 
-    system_prompt = (
-        "You are TutorAI, a patient educational agent. The student is viewing a "
-        "specific lesson. Explain the requested concept from the supplied lesson "
-        "context accurately and step by step. Adapt the explanation to the student's "
-        "question and avoid adding unrelated information."
+    feature_requirements = (
+        "The student is viewing a specific lesson. Explain the requested concept "
+        "from the supplied lesson context accurately and step by step. Adapt the "
+        "explanation to the student's question."
+        "Keep the answer focused, short, and relevant. "
     )
 
-    return ask_llm(prompt, system_prompt=system_prompt)
+    return ask_llm(
+        prompt,
+        system_prompt=generate_general_system_prompt(feature_requirements),
+    )

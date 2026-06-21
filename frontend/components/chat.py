@@ -68,7 +68,7 @@ def get_backend_response(user_message: str) -> dict:
 
     except requests.exceptions.Timeout:
         return {
-            "reply": "TutorAI is still waiting for Ollama. If this is the first request, the model may still be loading.",
+            "reply": "TutorAI model took too long to respond. Please try again.",
             "response_type": "message",
         }
 
@@ -250,10 +250,13 @@ def render_chat(
 
                 reply_text = assistant_message["content"]
                 is_error_reply = (
-                    reply_text.startswith("Ollama connection error:")
+                    reply_text.startswith("Gemini configuration error:")
+                    or reply_text.startswith("Gemini connection error:")
+                    or reply_text.startswith("Unexpected response format from Gemini.")
+                    or reply_text.startswith("Ollama connection error:")
                     or reply_text.startswith("Backend connection error:")
                     or reply_text.startswith("Cannot connect to TutorAI backend.")
-                    or reply_text.startswith("TutorAI is still waiting for Ollama.")
+                    or reply_text.startswith("TutorAI model took too long to respond.")
                     or reply_text.startswith("Unexpected response format from Ollama.")
                 )
 

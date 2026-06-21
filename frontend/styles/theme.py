@@ -12,6 +12,9 @@ COLORS = {
     "border": "#E2E8F0",
     "success": "#16A34A",
     "warning": "#F59E0B",
+    "highlight": "#FEF3C7",
+    "highlight_border": "#FDE68A",
+    "highlight_text": "#713F12",
     "danger": "#DC2626",
     "info": "#0284C7",
     "button": "#2563EB",
@@ -272,6 +275,34 @@ def get_global_styles() -> str:
             color: {COLORS["text"]} !important;
             border-left: 4px solid {COLORS["secondary"]} !important;
             margin-right: 14px !important;
+        }}
+
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stMarkdownContainer"] code:not(pre code),
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stMarkdownContainer"] mark {{
+            background-color: {COLORS["highlight"]} !important;
+            color: {COLORS["highlight_text"]} !important;
+            border: 1px solid {COLORS["highlight_border"]} !important;
+            border-radius: 5px !important;
+            padding: 2px 5px !important;
+            font-weight: 600 !important;
+            box-decoration-break: clone !important;
+            -webkit-box-decoration-break: clone !important;
+        }}
+
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stMarkdownContainer"] pre {{
+            background-color: #FFFBEB !important;
+            color: {COLORS["highlight_text"]} !important;
+            border: 1px solid {COLORS["highlight_border"]} !important;
+            border-radius: 8px !important;
+        }}
+
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stMarkdownContainer"] pre code {{
+            background-color: transparent !important;
+            color: {COLORS["highlight_text"]} !important;
         }}
 
         div[data-testid="stChatMessage"]:has([aria-label="Chat message from user"]) {{

@@ -1,21 +1,78 @@
 # backend/tutor.py
 
+import re
+
+from backend.data.lesson_loader import get_lesson_by_id
+from backend.generators.explanation_generator import generate_explanation
+from backend.generators.general_generator import generate_general
+from backend.generators.help_generator import generate_help
+from backend.generators.intent_generator import generate_intent_classification
+from backend.generators.learning_plan_generator import generate_learning_plan
+from backend.generators.progress_generator import generate_progress
+from backend.generators.quiz_generator import generate_placement_test, generate_quiz
+from backend.generators.summary_generator import generate_summary
+from backend.services.LLM import is_llm_error
+
 # يحدد نوع الطلب من رساله الطالب
 from backend.services.intent_detector import (
     EXPLANATION_COMMANDS,
     EXPLANATION_FOLLOW_UPS,
     detect_intent,
 )
-from backend.data.lesson_loader import get_lesson_by_id
 
-from backend.generators.explanation_generator import generate_explanation
-from backend.generators.general_generator import generate_general
-from backend.generators.help_generator import generate_help
-from backend.generators.learning_plan_generator import generate_learning_plan
-from backend.generators.progress_generator import generate_progress
-from backend.generators.quiz_generator import generate_placement_test, generate_quiz
-from backend.generators.summary_generator import generate_summary
-from backend.services.LLM import is_llm_error
+
+SUPPORTED_INTENTS = (
+    "explanation",
+    "summary",
+    "quiz",
+    "help",
+    "progress",
+    "learning_plan",
+    "general_chat",
+)
+LLM_CLASSIFICATION_OPTIONS = (*SUPPORTED_INTENTS, "unclear")
+
+UNCLEAR_REQUEST_MESSAGE = (
+    "I could not understand your request clearly. Please rephrase it or ask for "
+    "an explanation, summary, quiz, help, progress, or learning plan."
+)
+MISSING_LESSON_MESSAGE = (
+    "I could not find a suitable lesson for your request. "
+    "Please open a lesson or mention the topic more clearly."
+)
+
+
+def _parse_llm_intent(classification: str) -> str:
+    text = classification.lower().strip()
+    options_pattern = "|".join(re.escape(intent) for intent in LLM_CLASSIFICATION_OPTIONS)
+    match = re.search(rf"intent\s*=\s*({options_pattern})\b", text)
+
+    if match:
+        return match.group(1)
+
+    cleaned_text = text.strip("`'\" .")
+    if cleaned_text in LLM_CLASSIFICATION_OPTIONS:
+        return cleaned_text
+
+    return "unclear"
+
+
+def determine_student_intent(user_message: str) -> tuple[str, str | None]:
+    if not user_message or not user_message.strip():
+        return "unclear", None
+
+    rule_intent = detect_intent(user_message)
+    if rule_intent != "general_chat":
+        return rule_intent, None
+
+    classification = generate_intent_classification(
+        user_message,
+        LLM_CLASSIFICATION_OPTIONS,
+    )
+    if is_llm_error(classification):
+        return "llm_error", classification
+
+    return _parse_llm_intent(classification), None
 
 
 def detect_explanation_scope(user_message: str) -> str:
@@ -54,42 +111,11 @@ def _message_response(reply: str) -> dict:
     }
 
 
-def _resolve_lesson(user_message: str, lesson_id: str | None) -> dict | None:
-    if lesson_id:
-        lesson = get_lesson_by_id(lesson_id)
-        if lesson:
-            return lesson
-
-    return _search_relevant_lesson(user_message, lesson_id)
-
-
-def _search_relevant_lesson(
-    user_message: str,
-    lesson_id: str | None,
-) -> dict | None:
-    try:
-        from backend.rag.lesson_retriever import retrieve_lesson
-
-        return retrieve_lesson(
-            user_message=user_message,
-            current_lesson_id=lesson_id,
-        )
-    except Exception:
+def _get_current_lesson(lesson_id: str | None) -> dict | None:
+    if not lesson_id:
         return None
 
-
-def _resolve_explanation_lesson(
-    user_message: str,
-    lesson_id: str | None,
-    explanation_scope: str,
-) -> dict | None:
-    current_lesson = get_lesson_by_id(lesson_id) if lesson_id else None
-
-    if explanation_scope == "current_lesson":
-        return current_lesson
-
-    relevant_lesson = _search_relevant_lesson(user_message, lesson_id)
-    return relevant_lesson or current_lesson
+    return get_lesson_by_id(lesson_id)
 
 
 def generate_tutor_reply(
@@ -99,41 +125,37 @@ def generate_tutor_reply(
     """
     Main TutorAI router.
 
-    1. Detect the student intent.
-    2. Use RAG to retrieve the relevant lesson.
-    3. Send the lesson to the correct generator.
+    1. Detect intent with simple rules.
+    2. Use the LLM when rules cannot identify the request.
+    3. Return an unclear message when classification still fails.
+    4. Run the generator that owns the selected task.
     """
+    intent, intent_error = determine_student_intent(user_message)
 
-    intent = detect_intent(user_message)
+    if intent_error:
+        return _message_response(intent_error)
 
-    if intent == "general_chat":
-        return _message_response(generate_general(user_message))
+    if intent == "unclear":
+        return _message_response(UNCLEAR_REQUEST_MESSAGE)
 
-    if intent == "help":
-        return _message_response(generate_help(user_message))
+    direct_generators = {
+        "general_chat": generate_general,
+        "help": generate_help,
+        "progress": generate_progress,
+        "learning_plan": generate_learning_plan,
+    }
+    if intent in direct_generators:
+        return _message_response(direct_generators[intent](user_message))
 
-    if intent == "progress":
-        return _message_response(generate_progress(user_message))
-
-    if intent == "learning_plan":
-        return _message_response(generate_learning_plan(user_message))
-
-    explanation_scope = None
-    if intent == "explanation":
-        explanation_scope = detect_explanation_scope(user_message)
-        lesson = _resolve_explanation_lesson(
-            user_message,
-            lesson_id,
-            explanation_scope,
-        )
-    else:
-        lesson = _resolve_lesson(user_message, lesson_id)
+    explanation_scope = (
+        detect_explanation_scope(user_message)
+        if intent == "explanation"
+        else None
+    )
+    lesson = _get_current_lesson(lesson_id)
 
     if lesson is None:
-        return _message_response(
-            "I could not find a suitable lesson for your request. "
-            "Please open a lesson or mention the topic more clearly."
-        )
+        return _message_response(MISSING_LESSON_MESSAGE)
 
     if intent == "summary":
         return _message_response(generate_summary(lesson))
@@ -141,21 +163,16 @@ def generate_tutor_reply(
     if intent == "quiz":
         return _message_response(generate_quiz(lesson))
 
-    if intent == "explanation":
-        reply = generate_explanation(
-            user_message,
-            lesson,
-            explanation_scope=explanation_scope or "specific_topic",
-        )
-        return {
-            "reply": reply,
-            "explanation_scope": explanation_scope,
-            "response_type": (
-                "message" if is_llm_error(reply) else "explanation_check"
-            ),
-        }
-
-    return _message_response(generate_general(user_message))
+    reply = generate_explanation(
+        user_message,
+        lesson,
+        explanation_scope=explanation_scope or "specific_topic",
+    )
+    return {
+        "reply": reply,
+        "explanation_scope": explanation_scope,
+        "response_type": "message" if is_llm_error(reply) else "explanation_check",
+    }
 
 
 def generate_placement_test_reply(subject: str) -> dict:
