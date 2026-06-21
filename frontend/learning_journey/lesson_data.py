@@ -29,8 +29,6 @@ def get_level_lessons(subject: str | None, level: str | None) -> list[dict]:
 
 def set_current_lesson(lesson: dict) -> None:
     st.session_state.current_lesson_id = lesson["id"]
-    st.session_state.current_lesson_order = lesson["order"]
-    st.session_state.current_lesson_title = lesson["title"]
 
 
 def get_current_lesson() -> dict | None:
@@ -63,20 +61,3 @@ def get_next_lesson(current_lesson: dict) -> dict | None:
             return lesson
 
     return None
-
-
-def calculate_progress() -> float:
-    lessons = get_level_lessons(
-        st.session_state.selected_subject,
-        st.session_state.student_level,
-    )
-
-    if not lessons:
-        return 0.0
-
-    completed = [
-        lesson
-        for lesson in lessons
-        if lesson["id"] in st.session_state.completed_lessons
-    ]
-    return len(completed) / len(lessons)

@@ -56,7 +56,6 @@ def render_placement_test(message: dict) -> None:
 
     st.session_state.placement_score = score
     st.session_state.student_level = level
-    st.session_state.student_stage = "learning"
     st.session_state.completed_lessons = []
     st.session_state.level_lessons_completed = False
 

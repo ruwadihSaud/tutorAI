@@ -1,5 +1,11 @@
 # backend/tutor.py
 
+# يحدد نوع الطلب من رساله الطالب
+from backend.app.services.intent_detector import (
+    EXPLANATION_COMMANDS,
+    EXPLANATION_FOLLOW_UPS,
+    detect_intent,
+)
 from backend.data.lesson_loader import get_lesson_by_id
 
 from backend.generators.explanation_generator import generate_explanation
@@ -12,127 +18,30 @@ from backend.generators.summary_generator import generate_summary
 from backend.services.LLM import is_llm_error
 
 
-INTENT_KEYWORDS = {
-    "summary": [
-        "summarize", "summary", "summarise",
-        "لخص", "لخصي", "تلخيص", "اختصر", "اختصري",
-        "اهم النقاط", "أهم النقاط", "الزبدة",
-    ],
-    "quiz": [
-        "quiz", "test", "exam", "questions",
-        "اختبار", "اختبرني", "اسئلة", "أسئلة",
-        "سوي اختبار", "اعمل اختبار", "تدريب",
-    ],
-    "explanation": [
-        "explain", "explanation", "teach me", "teach", "clarify",
-        "what does", "what is", "what is meant", "why", "how does",
-        "understand", "اشرح", "شرح", "وضح", "فسر", "فهمني",
-        "ما معنى", "وش يعني", "ليش", "كيف", "ما فهمت",
-    ],
-    "help": [
-        "help", "support", "مساعدة", "ساعدني",
-        "وش اقدر اسوي", "كيف استخدم", "كيف أستخدم",
-    ],
-    "progress": [
-        "progress", "my progress", "how am i doing",
-        "تقدمي", "تقدمي الدراسي", "مستواي", "كيف مستواي",
-    ],
-    "learning_plan": [
-        "learning plan", "study plan", "learning path",
-        "خطة تعلم", "خطة دراسة", "مسار تعلم",
-    ],
-}
-
-
-CURRENT_LESSON_EXPLANATION_PHRASES = [
-    "this lesson",
-    "current lesson",
-    "this topic",
-    "current topic",
-    "this content",
-    "this point",
-    "explain it",
-    "explain more",
-    "هذا الدرس",
-    "الدرس الحالي",
-    "هذا الموضوع",
-    "الموضوع الحالي",
-    "هذا المحتوى",
-    "هذه النقطة",
-    "اشرحه",
-    "اشرح اكثر",
-    "اشرح أكثر",
-]
-
-
-GENERAL_EXPLANATION_REQUESTS = {
-    "explain",
-    "explain please",
-    "explain the lesson",
-    "i do not understand",
-    "i don't understand",
-    "اشرح",
-    "اشرح لي",
-    "اشرح الدرس",
-    "وضح",
-    "وضح لي",
-    "فهمني",
-    "ما فهمت",
-}
-
-
-EXPLANATION_FOLLOW_UP_PHRASES = [
-    "i need a simpler explanation",
-    "simpler explanation",
-    "explain it more simply",
-    "explain more simply",
-    "still do not understand",
-    "still don't understand",
-    "need more explanation",
-    "احتاج شرح ابسط",
-    "أحتاج شرح أبسط",
-    "اشرح بشكل ابسط",
-    "اشرح بشكل أبسط",
-    "ما زلت لا افهم",
-    "ما زلت لا أفهم",
-]
-
-
-EXPLANATION_COMMAND_PREFIXES = (
-    "explain ",
-    "clarify ",
-    "teach me ",
-    "اشرح ",
-    "وضح ",
-    "فسر ",
-    "فهمني ",
-)
-
-
-# يحدد نوع الطلب من رساله الطالب 
-def detect_intent(user_message: str) -> str:
-    message = user_message.lower().strip()
-
-    if any(phrase in message for phrase in EXPLANATION_FOLLOW_UP_PHRASES):
-        return "explanation"
-
-    if message.startswith(EXPLANATION_COMMAND_PREFIXES):
-        return "explanation"
-
-    for intent, keywords in INTENT_KEYWORDS.items():
-        if any(keyword in message for keyword in keywords):
-            return intent
-
-    return "general"
-
-
 def detect_explanation_scope(user_message: str) -> str:
     message = user_message.lower().strip()
+    current_lesson_phrases = (
+        "this lesson", "current lesson", "this topic", "current topic",
+        "this content", "this point", "explain it", "explain more",
+        "هذا الدرس", "الدرس الحالي", "هذا الموضوع", "الموضوع الحالي",
+        "هذا المحتوى", "هذه النقطة", "اشرحه", "اشرح اكثر", "اشرح أكثر",
+    )
+    general_requests = (
+        "explain please", "explain the lesson",
+        "i do not understand", "i don't understand",
+        "اشرح لي", "اشرح الدرس", "وضح لي", "ما فهمت",
+    )
 
-    if message in GENERAL_EXPLANATION_REQUESTS:
+    if message in EXPLANATION_COMMANDS:
         return "current_lesson"
 
-    if any(phrase in message for phrase in CURRENT_LESSON_EXPLANATION_PHRASES):
+    if message in EXPLANATION_FOLLOW_UPS:
+        return "current_lesson"
+
+    if message in general_requests:
+        return "current_lesson"
+
+    if any(phrase in message for phrase in current_lesson_phrases):
         return "current_lesson"
 
     return "specific_topic"
@@ -151,12 +60,22 @@ def _resolve_lesson(user_message: str, lesson_id: str | None) -> dict | None:
         if lesson:
             return lesson
 
-    from backend.rag.lesson_retriever import retrieve_lesson
+    return _search_relevant_lesson(user_message, lesson_id)
 
-    return retrieve_lesson(
-        user_message=user_message,
-        current_lesson_id=lesson_id,
-    )
+
+def _search_relevant_lesson(
+    user_message: str,
+    lesson_id: str | None,
+) -> dict | None:
+    try:
+        from backend.rag.lesson_retriever import retrieve_lesson
+
+        return retrieve_lesson(
+            user_message=user_message,
+            current_lesson_id=lesson_id,
+        )
+    except Exception:
+        return None
 
 
 def _resolve_explanation_lesson(
@@ -169,12 +88,7 @@ def _resolve_explanation_lesson(
     if explanation_scope == "current_lesson":
         return current_lesson
 
-    from backend.rag.lesson_retriever import retrieve_lesson
-
-    relevant_lesson = retrieve_lesson(
-        user_message=user_message,
-        current_lesson_id=lesson_id,
-    )
+    relevant_lesson = _search_relevant_lesson(user_message, lesson_id)
     return relevant_lesson or current_lesson
 
 
@@ -192,7 +106,7 @@ def generate_tutor_reply(
 
     intent = detect_intent(user_message)
 
-    if intent == "general":
+    if intent == "general_chat":
         return _message_response(generate_general(user_message))
 
     if intent == "help":

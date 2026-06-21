@@ -28,7 +28,6 @@ def complete_current_lesson(lesson: dict) -> None:
         set_current_lesson(next_lesson)
     else:
         st.session_state.level_lessons_completed = True
-        st.session_state.student_stage = "level_test"
 
 
 def render_lesson_box() -> None:
