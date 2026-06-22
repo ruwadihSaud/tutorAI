@@ -203,6 +203,220 @@ def get_global_styles() -> str:
             font-weight: 800;
         }}
 
+        .contact-card-marker {{
+            display: none !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker) {{
+            background-color: {COLORS["surface"]} !important;
+            border: 1px solid {COLORS["border"]} !important;
+            border-radius: 16px !important;
+            padding: 24px !important;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
+        }}
+
+        .contact-page-title {{
+            padding-bottom: 4px;
+        }}
+
+        .contact-topic {{
+            min-height: 108px;
+            padding: 14px 16px;
+            background-color: #F8FAFC;
+            border-left: 3px solid {COLORS["primary"]};
+            border-radius: 8px;
+        }}
+
+        .contact-topic strong {{
+            display: block;
+            color: {COLORS["text"]};
+            font-size: 16px;
+            margin-bottom: 8px;
+        }}
+
+        .contact-topic p {{
+            color: {COLORS["muted_text"]};
+            font-size: 14px;
+            line-height: 1.55;
+            margin: 0;
+        }}
+
+        .contact-form-title {{
+            color: {COLORS["text"]};
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }}
+
+        .help-faq-marker {{
+            display: none !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker) {{
+            background-color: {COLORS["surface"]} !important;
+            border: 1px solid {COLORS["border"]} !important;
+            border-radius: 16px !important;
+            padding: 18px !important;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details {{
+            background-color: #F8FAFC !important;
+            color: {COLORS["text"]} !important;
+            border: 1px solid {COLORS["border"]} !important;
+            border-radius: 8px !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        div[data-testid="stExpander"],
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details summary {{
+            background: #F8FAFC !important;
+            background-color: #F8FAFC !important;
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details summary > div,
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details summary > span {{
+            background: transparent !important;
+            background-color: transparent !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        div[data-testid="stExpanderDetails"],
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details > div:not([data-testid="stExpanderToggleIcon"]) {{
+            background: {COLORS["surface"]} !important;
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details summary,
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details summary * {{
+            color: {COLORS["text"]} !important;
+            font-weight: 700 !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details[open] {{
+            border-color: {COLORS["primary"]} !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details[open] summary {{
+            background: #DBEAFE !important;
+            background-color: #DBEAFE !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details[open] summary,
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details[open] summary * {{
+            color: {COLORS["primary_dark"]} !important;
+            fill: {COLORS["primary_dark"]} !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details [data-testid="stMarkdownContainer"],
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.help-faq-marker)
+        details [data-testid="stMarkdownContainer"] * {{
+            color: #334155 !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        div[data-baseweb="input"],
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        div[data-baseweb="textarea"],
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        div[data-baseweb="select"] > div {{
+            background-color: #F8FAFC !important;
+            border-color: #CBD5E1 !important;
+            border-radius: 8px !important;
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        input,
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        textarea,
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        [data-baseweb="select"] * {{
+            background-color: transparent !important;
+            color: {COLORS["text"]} !important;
+            -webkit-text-fill-color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        input::placeholder,
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        textarea::placeholder {{
+            color: #94A3B8 !important;
+            -webkit-text-fill-color: #94A3B8 !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        div[data-baseweb="input"]:focus-within,
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        div[data-baseweb="textarea"]:focus-within,
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.contact-card-marker)
+        div[data-baseweb="select"] > div:focus-within {{
+            background-color: {COLORS["surface"]} !important;
+            border-color: {COLORS["primary"]} !important;
+            box-shadow: 0 0 0 3px #DBEAFE !important;
+        }}
+
+        .contact-form-marker {{
+            display: none !important;
+        }}
+
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextInput"] > div,
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextInput"] [data-baseweb="input"],
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextInput"] [data-baseweb="base-input"],
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextArea"] > div,
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextArea"] [data-baseweb="textarea"],
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextArea"] [data-baseweb="base-input"],
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stSelectbox"] [data-baseweb="select"] > div {{
+            background: {COLORS["surface"]} !important;
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+            border-color: #CBD5E1 !important;
+        }}
+
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextInput"] input,
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextArea"] textarea,
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stSelectbox"] input {{
+            background: {COLORS["surface"]} !important;
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+            caret-color: {COLORS["text"]} !important;
+            -webkit-text-fill-color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextInput"]:focus-within [data-baseweb="input"],
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stTextArea"]:focus-within [data-baseweb="textarea"],
+        div[data-testid="stForm"]:has(.contact-form-marker)
+        div[data-testid="stSelectbox"]:focus-within [data-baseweb="select"] > div {{
+            border-color: {COLORS["primary"]} !important;
+            box-shadow: 0 0 0 3px #DBEAFE !important;
+        }}
+
         /* Buttons */
         div[data-testid="stButton"] button {{
             background-color: {COLORS["surface"]} !important;
@@ -602,6 +816,58 @@ def get_global_styles() -> str:
             padding: 18px !important;
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
             margin-bottom: 16px !important;
+        }}
+
+        /* Keep Streamlit expanders readable even when the system theme is dark. */
+        div[data-testid="stExpander"] {{
+            color-scheme: light !important;
+            background: {COLORS["surface"]} !important;
+            background-color: {COLORS["surface"]} !important;
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stExpander"] details,
+        div[data-testid="stExpander"] details summary,
+        div[data-testid="stExpander"] details summary:hover,
+        div[data-testid="stExpander"] details summary:focus {{
+            background: #F8FAFC !important;
+            background-color: #F8FAFC !important;
+            color: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stExpander"] details summary *,
+        div[data-testid="stExpander"] details summary:hover * {{
+            background: transparent !important;
+            background-color: transparent !important;
+            color: {COLORS["text"]} !important;
+            fill: {COLORS["text"]} !important;
+        }}
+
+        div[data-testid="stExpander"] details > div,
+        div[data-testid="stExpander"] details > div * {{
+            background: {COLORS["surface"]} !important;
+            background-color: {COLORS["surface"]} !important;
+            color: #334155 !important;
+        }}
+
+        div[data-testid="stExpander"] details[open] summary,
+        div[data-testid="stExpander"] details[open] summary:hover,
+        div[data-testid="stExpander"] details[open] summary:focus {{
+            background: #DBEAFE !important;
+            background-color: #DBEAFE !important;
+            color: {COLORS["primary_dark"]} !important;
+        }}
+
+        div[data-testid="stExpander"] details[open] summary * {{
+            background: transparent !important;
+            background-color: transparent !important;
+            color: {COLORS["primary_dark"]} !important;
+            fill: {COLORS["primary_dark"]} !important;
+        }}
+
+        div[data-testid="stExpander"] details:not([open]) summary:hover {{
+            background: rgba(100, 116, 139, 0.12) !important;
+            background-color: rgba(100, 116, 139, 0.12) !important;
         }}
     </style>
     """

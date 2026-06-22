@@ -157,6 +157,11 @@ def get_level_test(subject: str, level: str) -> dict:
 def start_journey():
     start_message = "Let's start my learning journey 🚀"
     st.session_state.journey_started = True
+    st.session_state.chat_messages = [
+        message
+        for message in st.session_state.chat_messages
+        if message.get("type") != "journey_complete"
+    ]
     st.session_state.chat_messages.append(
         {
             "role": "user",
@@ -208,7 +213,7 @@ def render_chat(
         chat_area = st.container(height=chat_height)
 
         with chat_area:
-            for message in st.session_state.chat_messages:
+            for message_index, message in enumerate(st.session_state.chat_messages):
                 if message.get("type") == "journey_complete":
                     with st.chat_message("assistant"):
                         completion_message = message.get("completion_message")
@@ -218,7 +223,7 @@ def render_chat(
                         st.button(
                             "Start New Journey",
                             use_container_width=False,
-                            key="restart_learning_journey_button",
+                            key=f"restart_learning_journey_button_{message_index}",
                             on_click=start_journey,
                         )
                     continue
@@ -232,7 +237,7 @@ def render_chat(
                             st.button(
                                 "Start",
                                 use_container_width=False,
-                                key="start_journey_button",
+                                key=f"start_journey_button_{message_index}",
                                 on_click=start_journey,
                             )
                             st.markdown('</div>', unsafe_allow_html=True)
@@ -253,7 +258,9 @@ def render_chat(
                                         st.button(
                                             subject,
                                             use_container_width=True,
-                                            key=f"subject_button_{subject}",
+                                            key=(
+                                                f"subject_button_{message_index}_{subject}"
+                                            ),
                                             on_click=select_subject,
                                             args=(subject,),
                                         )

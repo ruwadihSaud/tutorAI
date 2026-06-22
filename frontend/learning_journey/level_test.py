@@ -34,6 +34,8 @@ def reset_for_new_journey() -> None:
         "lesson_box",
         "explanation_check",
         "level_test",
+        "lesson_quiz",
+        "journey_complete",
     }
     st.session_state.chat_messages = [
         message
