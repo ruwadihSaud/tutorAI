@@ -305,6 +305,25 @@ def get_global_styles() -> str:
             color: {COLORS["highlight_text"]} !important;
         }}
 
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stMarkdownContainer"] a[href*="youtube.com"],
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stMarkdownContainer"] a[href*="youtu.be"] {{
+            color: #1E3A8A !important;
+            font-weight: 700 !important;
+            text-decoration: underline !important;
+            text-decoration-color: #3B82F6 !important;
+            text-underline-offset: 3px !important;
+        }}
+
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stMarkdownContainer"] a[href*="youtube.com"]:hover,
+        div[data-testid="stChatMessage"]:has([aria-label="Chat message from assistant"])
+        [data-testid="stMarkdownContainer"] a[href*="youtu.be"]:hover {{
+            color: #172554 !important;
+            text-decoration-color: #1E3A8A !important;
+        }}
+
         div[data-testid="stChatMessage"]:has([aria-label="Chat message from user"]) {{
             background-color: {COLORS["surface"]} !important;
             color: {COLORS["text"]} !important;

@@ -68,13 +68,6 @@ def finish_learning_journey(subject: str, level: str = "Advanced") -> None:
             "type": "journey_complete",
         }
     )
-    st.session_state.chat_messages.append(
-        {
-            "role": "assistant",
-            "content": "I am TutorAI. Are you ready for your Learning Journey?",
-            "type": "start_prompt",
-        }
-    )
 
 
 def _continue_after_test(

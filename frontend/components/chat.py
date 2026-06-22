@@ -58,6 +58,14 @@ def initialize_chat():
     if "learning_completed" not in st.session_state:
         st.session_state.learning_completed = False
 
+    for message in st.session_state.chat_messages:
+        if (
+            message.get("type") == "journey_complete"
+            and "completion_message" not in message
+        ):
+            message["completion_message"] = message.get("content", "")
+            message["content"] = "Are you ready for another Learning Journey?"
+
     if st.session_state.learning_completed:
         completed_subject = st.session_state.selected_subject or "your subject"
         completed_level = st.session_state.student_level or "Advanced"
@@ -158,7 +166,6 @@ def start_journey():
             "type": "subject_selection",
         }
     )
-    st.rerun()
 
 
 def select_subject(subject: str):
@@ -176,7 +183,6 @@ def select_subject(subject: str):
         }
     )
     st.session_state.pending_placement_subject = subject
-    st.rerun()
 
 
 def render_chat(
@@ -199,6 +205,20 @@ def render_chat(
 
         with chat_area:
             for message in st.session_state.chat_messages:
+                if message.get("type") == "journey_complete":
+                    with st.chat_message("assistant"):
+                        completion_message = message.get("completion_message")
+                        if completion_message:
+                            st.success(completion_message)
+                        st.write(message["content"])
+                        st.button(
+                            "Start New Journey",
+                            use_container_width=False,
+                            key="restart_learning_journey_button",
+                            on_click=start_journey,
+                        )
+                    continue
+
                 if message.get("type") == "start_prompt":
                     with st.chat_message("assistant"):
                         st.write(message["content"])
