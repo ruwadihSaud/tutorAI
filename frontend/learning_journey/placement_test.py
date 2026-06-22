@@ -58,6 +58,10 @@ def render_placement_test(message: dict) -> None:
     st.session_state.student_level = level
     st.session_state.completed_lessons = []
     st.session_state.level_lessons_completed = False
+    st.session_state.pending_level_test = None
+    st.session_state.level_test_results = {}
+    st.session_state.level_test_score = None
+    st.session_state.learning_completed = False
 
     if level_lessons:
         set_current_lesson(level_lessons[0])

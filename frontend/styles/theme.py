@@ -548,7 +548,6 @@ def get_global_styles() -> str:
             color: #FFFFFF !important;
         }}
 
-
         /* Footer */
         footer {{
             visibility: hidden !important;

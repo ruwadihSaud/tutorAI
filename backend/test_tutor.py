@@ -3,16 +3,59 @@
 import unittest
 from unittest.mock import patch
 
+import backend.services.LLM as llm_service
 from backend.tutor import (
     UNCLEAR_REQUEST_MESSAGE,
     detect_explanation_scope,
     detect_intent,
     determine_student_intent,
+    generate_level_test_reply,
     generate_tutor_reply,
 )
 
 
 class TutorRoutingTests(unittest.TestCase):
+    def test_level_test_uses_only_current_level_questions(self):
+        level_test = generate_level_test_reply(
+            "Machine Learning",
+            "Intermediate",
+        )
+
+        self.assertTrue(level_test["questions"])
+        self.assertEqual(level_test["passing_score"], 70)
+        self.assertTrue(
+            all(
+                question["source_level"] == "Intermediate"
+                for question in level_test["questions"]
+            )
+        )
+
+    @patch.dict(
+        llm_service.LLM_SERVICES,
+        {
+            "gemini": lambda **kwargs: "Gemini connection error: unavailable",
+            "ollama": lambda **kwargs: "Fallback reply",
+        },
+    )
+    def test_llm_uses_ollama_fallback(self):
+        self.assertEqual(
+            llm_service.ask_llm("hello", "system"),
+            "Fallback reply",
+        )
+
+    @patch.dict(
+        llm_service.LLM_SERVICES,
+        {
+            "gemini": lambda **kwargs: "Gemini connection error: unavailable",
+            "ollama": lambda **kwargs: "Ollama connection error: unavailable",
+        },
+    )
+    def test_llm_returns_error_only_when_both_services_fail(self):
+        reply = llm_service.ask_llm("hello", "system")
+
+        self.assertTrue(llm_service.is_llm_error(reply))
+        self.assertIn("Gemini and Ollama", reply)
+
     def test_detects_supported_tasks(self):
         cases = {
             "explain this lesson": "explanation",
@@ -113,6 +156,42 @@ class TutorRoutingTests(unittest.TestCase):
         self.assertEqual(response["reply"], "Simple explanation")
         self.assertEqual(response["response_type"], "explanation_check")
         generate_explanation.assert_called_once()
+
+    @patch("backend.tutor.generate_explanation", return_value="Video explanation")
+    @patch(
+        "backend.tutor.get_relevant_video",
+        return_value={
+            "video_title": "Lesson video",
+            "video_url": "https://example.com/video",
+        },
+    )
+    @patch("backend.tutor.get_lesson_by_id")
+    def test_video_request_passes_verified_video_to_explanation(
+        self,
+        get_lesson_by_id,
+        get_relevant_video,
+        generate_explanation,
+    ):
+        lesson = {
+            "id": "lesson_01",
+            "title": "Current lesson",
+            "content": "lesson content",
+        }
+        get_lesson_by_id.return_value = lesson
+
+        generate_tutor_reply(
+            "explain this lesson with a video",
+            lesson_id="lesson_01",
+        )
+
+        get_relevant_video.assert_called_once_with(
+            "explain this lesson with a video",
+            lesson,
+        )
+        self.assertEqual(
+            generate_explanation.call_args.kwargs["video"]["video_url"],
+            "https://example.com/video",
+        )
 
 
 if __name__ == "__main__":

@@ -100,3 +100,38 @@ def generate_placement_test(subject: str) -> dict:
         "subject": subject,
         "questions": questions,
     }
+
+
+def generate_level_test(subject: str, level: str) -> dict:
+    placement_tests = load_placement_tests()
+    level_questions = placement_tests.get(subject, {}).get(level, [])
+
+    if not level_questions:
+        return {
+            "reply": f"I could not find a level test for {subject} - {level}.",
+            "subject": subject,
+            "level": level,
+            "questions": [],
+            "passing_score": 70,
+        }
+
+    selected_questions = random.sample(
+        level_questions,
+        k=min(4, len(level_questions)),
+    )
+    questions = [
+        _prepare_question(question, level)
+        for question in selected_questions
+    ]
+    random.shuffle(questions)
+
+    return {
+        "reply": (
+            f"You completed the {level} lessons in {subject}. "
+            "Complete this level test to continue. You need 70% to pass."
+        ),
+        "subject": subject,
+        "level": level,
+        "questions": questions,
+        "passing_score": 70,
+    }

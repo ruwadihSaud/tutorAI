@@ -4,6 +4,7 @@ import requests
 import streamlit as st
 
 from learning_journey.explanation_check import render_explanation_check
+from learning_journey.level_test import finish_learning_journey, render_level_test
 from learning_journey.lesson_box import render_lesson_box
 from learning_journey.lesson_data import get_subjects
 from learning_journey.placement_test import render_placement_test
@@ -11,6 +12,7 @@ from learning_journey.placement_test import render_placement_test
 
 API_URL = "http://127.0.0.1:8000/chat"
 PLACEMENT_TEST_URL = "http://127.0.0.1:8000/placement-test"
+LEVEL_TEST_URL = "http://127.0.0.1:8000/level-test"
 
 
 def initialize_chat():
@@ -43,6 +45,23 @@ def initialize_chat():
 
     if "resolved_explanation_checks" not in st.session_state:
         st.session_state.resolved_explanation_checks = []
+
+    if "pending_level_test" not in st.session_state:
+        st.session_state.pending_level_test = None
+
+    if "level_test_results" not in st.session_state:
+        st.session_state.level_test_results = {}
+
+    if "level_test_score" not in st.session_state:
+        st.session_state.level_test_score = None
+
+    if "learning_completed" not in st.session_state:
+        st.session_state.learning_completed = False
+
+    if st.session_state.learning_completed:
+        completed_subject = st.session_state.selected_subject or "your subject"
+        completed_level = st.session_state.student_level or "Advanced"
+        finish_learning_journey(completed_subject, completed_level)
 
 
 def get_backend_response(user_message: str) -> dict:
@@ -103,6 +122,26 @@ def get_placement_test(subject: str) -> dict:
         }
 
 
+def get_level_test(subject: str, level: str) -> dict:
+    try:
+        response = requests.post(
+            LEVEL_TEST_URL,
+            json={"subject": subject, "level": level},
+            timeout=30,
+        )
+        response.raise_for_status()
+        return response.json()
+
+    except requests.exceptions.RequestException as e:
+        return {
+            "reply": f"Could not load the level test: {e}",
+            "subject": subject,
+            "level": level,
+            "questions": [],
+            "passing_score": 70,
+        }
+
+
 def start_journey():
     start_message = "Let's start my learning journey 🚀"
     st.session_state.journey_started = True
@@ -126,6 +165,10 @@ def select_subject(subject: str):
     st.session_state.selected_subject = subject
     st.session_state.placement_score = None
     st.session_state.student_level = None
+    st.session_state.pending_level_test = None
+    st.session_state.level_test_results = {}
+    st.session_state.level_test_score = None
+    st.session_state.learning_completed = False
     st.session_state.chat_messages.append(
         {
             "role": "user",
@@ -210,6 +253,11 @@ def render_chat(
                         render_explanation_check(message)
                     continue
 
+                if message.get("type") == "level_test":
+                    with st.chat_message("assistant"):
+                        render_level_test(message)
+                    continue
+
                 with st.chat_message(message["role"]):
                     st.write(message["content"])
 
@@ -234,6 +282,31 @@ def render_chat(
                 st.session_state.pending_placement_subject = None
                 st.rerun()
 
+            pending_level_test = st.session_state.pending_level_test
+            if pending_level_test:
+                subject = pending_level_test["subject"]
+                level = pending_level_test["level"]
+                with st.chat_message("assistant"):
+                    with st.spinner("Preparing your level test..."):
+                        level_test = get_level_test(subject, level)
+
+                st.session_state.chat_messages.append(
+                    {
+                        "role": "assistant",
+                        "content": level_test.get("reply", "Level test"),
+                        "type": "level_test",
+                        "test_id": (
+                            f"{subject}_{level}_{len(st.session_state.chat_messages)}"
+                        ),
+                        "subject": level_test.get("subject", subject),
+                        "level": level_test.get("level", level),
+                        "questions": level_test.get("questions", []),
+                        "passing_score": level_test.get("passing_score", 70),
+                    }
+                )
+                st.session_state.pending_level_test = None
+                st.rerun()
+
             pending_user_message = st.session_state.pending_user_message
             if pending_user_message:
                 with st.chat_message("assistant"):
@@ -250,7 +323,9 @@ def render_chat(
 
                 reply_text = assistant_message["content"]
                 is_error_reply = (
-                    reply_text.startswith("Gemini configuration error:")
+                    reply_text.startswith("LLM service error:")
+                    or reply_text.startswith("LLM configuration error:")
+                    or reply_text.startswith("Gemini configuration error:")
                     or reply_text.startswith("Gemini connection error:")
                     or reply_text.startswith("Unexpected response format from Gemini.")
                     or reply_text.startswith("Ollama connection error:")

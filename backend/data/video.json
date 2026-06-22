@@ -1,0 +1,79 @@
+[
+  {
+    "lesson_id": "ml_lesson_01_what_is_machine_learning",
+    "title": "What is Machine Learning?",
+    "keywords": ["machine learning", "ml", "what is machine learning", "تعلم الآلة"],
+    "video_title": "What is Machine Learning?",
+    "video_url": "https://www.youtube.com/watch?v=ukzFI9rgwfU"
+  },
+  {
+    "lesson_id": "ml_lesson_02_supervised_learning",
+    "title": "Supervised Learning",
+    "keywords": ["supervised learning", "labels", "classification", "regression", "التعلم المراقب"],
+    "video_title": "Supervised Learning",
+    "video_url": "https://www.youtube.com/watch?v=4qVRBYAdLAo"
+  },
+  {
+    "lesson_id": "ml_lesson_03_unsupervised_learning",
+    "title": "Unsupervised Learning",
+    "keywords": ["unsupervised learning", "clustering", "dimension reduction", "التعلم غير المراقب"],
+    "video_title": "Unsupervised Learning",
+    "video_url": "https://www.youtube.com/watch?v=IUn8k5zSI6g"
+  },
+  {
+    "lesson_id": "ml_lesson_04_classification",
+    "title": "Classification",
+    "keywords": ["classification", "classifier", "classes", "تصنيف"],
+    "video_title": "Classification in Machine Learning",
+    "video_url": "https://www.youtube.com/watch?v=fSytzGwwBVw"
+  },
+  {
+    "lesson_id": "ml_lesson_05_regression",
+    "title": "Regression",
+    "keywords": ["regression", "linear regression", "prediction", "انحدار"],
+    "video_title": "Linear Regression",
+    "video_url": "https://www.youtube.com/watch?v=nk2CQITm_eo"
+  },
+  {
+    "lesson_id": "ml_lesson_06_overfitting",
+    "title": "Overfitting and Underfitting",
+    "keywords": ["overfitting", "underfitting", "generalization", "فرط التخصيص"],
+    "video_title": "Overfitting and Underfitting",
+    "video_url": "https://www.youtube.com/watch?v=EuBBz3bI-aA"
+  },
+  {
+    "lesson_id": "dl_lesson_01_what_is_deep_learning",
+    "title": "What is Deep Learning?",
+    "keywords": ["deep learning", "neural networks", "تعلم عميق"],
+    "video_title": "What is Deep Learning?",
+    "video_url": "https://www.youtube.com/watch?v=6M5VXKLf4D4"
+  },
+  {
+    "lesson_id": "dl_lesson_02_neural_networks",
+    "title": "Neural Networks",
+    "keywords": ["neural network", "neurons", "layers", "شبكات عصبية"],
+    "video_title": "Neural Networks Explained",
+    "video_url": "https://www.youtube.com/watch?v=aircAruvnKk"
+  },
+  {
+    "lesson_id": "dl_lesson_03_activation_functions",
+    "title": "Activation Functions",
+    "keywords": ["activation function", "relu", "sigmoid", "tanh", "دالة تنشيط"],
+    "video_title": "Activation Functions",
+    "video_url": "https://www.youtube.com/watch?v=NkOv_k7r6no"
+  },
+  {
+    "lesson_id": "dl_lesson_04_backpropagation",
+    "title": "Backpropagation",
+    "keywords": ["backpropagation", "gradient descent", "training neural network", "الانتشار العكسي"],
+    "video_title": "Backpropagation",
+    "video_url": "https://www.youtube.com/watch?v=Ilg3gGewQ5U"
+  },
+  {
+    "lesson_id": "dl_lesson_05_convolutional_neural_networks",
+    "title": "Convolutional Neural Networks",
+    "keywords": ["cnn", "convolutional neural network", "image classification", "شبكات التفاف"],
+    "video_title": "Convolutional Neural Networks",
+    "video_url": "https://www.youtube.com/watch?v=YRhxdVk_sIs"
+  }
+]

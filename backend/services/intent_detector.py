@@ -22,7 +22,8 @@ INTENT_KEYWORDS = {
     ],
     "explanation": [
         "explain", "explanation", "clarify", "teach", "what is",
-        "what does", "how", "why", "اشرح", "شرح", "وضح", "فسر",
+        "what does", "how", "why", "video", "youtube",
+        "اشرح", "شرح", "وضح", "فسر", "فيديو", "يوتيوب", "مقطع شرح",
         "فهمني", "وش يعني", "ما معنى", "كيف", "ليش", "ما فهمت",
     ],
 }

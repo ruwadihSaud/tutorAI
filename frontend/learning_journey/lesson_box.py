@@ -18,6 +18,22 @@ def _initialize_lesson_state() -> None:
         st.session_state.level_lessons_completed = False
 
 
+def _has_level_test(subject: str, level: str) -> bool:
+    return any(
+        message.get("type") == "level_test"
+        and message.get("subject") == subject
+        and message.get("level") == level
+        for message in st.session_state.chat_messages
+    )
+
+
+def _queue_level_test() -> None:
+    st.session_state.pending_level_test = {
+        "subject": st.session_state.selected_subject,
+        "level": st.session_state.student_level,
+    }
+
+
 def complete_current_lesson(lesson: dict) -> None:
     if lesson["id"] not in st.session_state.completed_lessons:
         st.session_state.completed_lessons.append(lesson["id"])
@@ -28,15 +44,36 @@ def complete_current_lesson(lesson: dict) -> None:
         set_current_lesson(next_lesson)
     else:
         st.session_state.level_lessons_completed = True
+        _queue_level_test()
+        st.session_state.chat_messages.append(
+            {
+                "role": "user",
+                "content": (
+                    f"I completed all {st.session_state.student_level} lessons."
+                ),
+            }
+        )
 
 
 def render_lesson_box() -> None:
     _initialize_lesson_state()
 
     if st.session_state.level_lessons_completed:
+        subject = st.session_state.selected_subject
+        level = st.session_state.student_level
+        test_is_missing = not _has_level_test(subject, level)
+        test_is_not_pending = not st.session_state.get("pending_level_test")
+
+        if (
+            test_is_missing
+            and test_is_not_pending
+            and not st.session_state.get("learning_completed", False)
+        ):
+            _queue_level_test()
+            st.rerun()
+
         st.success(
-            f"You completed all {st.session_state.student_level} lessons in "
-            f"{st.session_state.selected_subject}."
+            f"You completed all {level} lessons in {subject}."
         )
         return
 

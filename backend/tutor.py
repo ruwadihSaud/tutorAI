@@ -3,13 +3,18 @@
 import re
 
 from backend.data.lesson_loader import get_lesson_by_id
+from backend.data.video_loader import get_relevant_video, wants_video
 from backend.generators.explanation_generator import generate_explanation
 from backend.generators.general_generator import generate_general
 from backend.generators.help_generator import generate_help
 from backend.generators.intent_generator import generate_intent_classification
 from backend.generators.learning_plan_generator import generate_learning_plan
 from backend.generators.progress_generator import generate_progress
-from backend.generators.quiz_generator import generate_placement_test, generate_quiz
+from backend.generators.quiz_generator import (
+    generate_level_test,
+    generate_placement_test,
+    generate_quiz,
+)
 from backend.generators.summary_generator import generate_summary
 from backend.services.LLM import is_llm_error
 
@@ -167,6 +172,15 @@ def generate_tutor_reply(
         user_message,
         lesson,
         explanation_scope=explanation_scope or "specific_topic",
+        video=(
+            get_relevant_video(user_message, lesson)
+            if wants_video(user_message)
+            or any(
+                phrase in user_message.lower()
+                for phrase in EXPLANATION_FOLLOW_UPS
+            )
+            else None
+        ),
     )
     return {
         "reply": reply,
@@ -177,3 +191,7 @@ def generate_tutor_reply(
 
 def generate_placement_test_reply(subject: str) -> dict:
     return generate_placement_test(subject)
+
+
+def generate_level_test_reply(subject: str, level: str) -> dict:
+    return generate_level_test(subject, level)

@@ -3,13 +3,14 @@
 
 
 from backend.generators.general_generator import generate_general_system_prompt
-from backend.services.LLM import ask_llm
+from backend.services.LLM import ask_llm, is_llm_error
 
 
 def generate_explanation(
     user_message: str,
     lesson: dict | None = None,
     explanation_scope: str = "specific_topic",
+    video: dict | None = None,
 ) -> str:
     if not lesson:
         return "I could not find the current lesson. Please select a lesson first."
@@ -31,6 +32,16 @@ def generate_explanation(
             "use the retrieved lesson as the main source."
         )
 
+    video_instruction = ""
+    if video:
+        video_instruction = (
+            "\n\nVerified video resource:\n"
+            f"Title: {video.get('video_title', 'Video explanation')}\n"
+            f"URL: {video.get('video_url', '')}\n"
+            "Recommend this exact video at the end using a Markdown link. "
+            "Do not change the URL or invent another link."
+        )
+
     prompt = (
         f"Current lesson title: {title}\n\n"
         f"Current lesson content:\n{content}\n\n"
@@ -39,6 +50,7 @@ def generate_explanation(
         "Use simple language, explain step by step, and include one practical "
         "example. Do not discuss unrelated topics. The interface will ask whether "
         "the student understood, so do not add a separate understanding question."
+        f"{video_instruction}"
     )
 
     feature_requirements = (
@@ -48,7 +60,18 @@ def generate_explanation(
         "Keep the answer focused, short, and relevant. "
     )
 
-    return ask_llm(
+    reply = ask_llm(
         prompt,
         system_prompt=generate_general_system_prompt(feature_requirements),
     )
+
+    if (
+        video
+        and not is_llm_error(reply)
+        and video.get("video_url")
+        and video["video_url"] not in reply
+    ):
+        video_title = video.get("video_title", "Video explanation")
+        return f"{reply}\n\nRecommended video: [{video_title}]({video['video_url']})"
+
+    return reply
