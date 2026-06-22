@@ -4,6 +4,8 @@ import unittest
 from unittest.mock import patch
 
 import backend.services.LLM as llm_service
+from backend.data.lesson_loader import get_lesson_by_id
+from backend.generators.quiz_generator import generate_quiz
 from backend.tutor import (
     UNCLEAR_REQUEST_MESSAGE,
     detect_explanation_scope,
@@ -15,6 +17,18 @@ from backend.tutor import (
 
 
 class TutorRoutingTests(unittest.TestCase):
+    def test_lesson_quiz_uses_only_questions_linked_to_current_lesson(self):
+        lesson = get_lesson_by_id("lesson_01_what_is_machine_learning")
+        quiz = generate_quiz(lesson)
+
+        self.assertTrue(quiz["questions"])
+        self.assertTrue(
+            all(
+                question["id_lesson"] == lesson["id"]
+                for question in quiz["questions"]
+            )
+        )
+
     def test_level_test_uses_only_current_level_questions(self):
         level_test = generate_level_test_reply(
             "Machine Learning",

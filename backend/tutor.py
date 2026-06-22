@@ -166,7 +166,16 @@ def generate_tutor_reply(
         return _message_response(generate_summary(lesson))
 
     if intent == "quiz":
-        return _message_response(generate_quiz(lesson))
+        quiz = generate_quiz(lesson)
+        if not quiz["questions"]:
+            return _message_response(quiz["reply"])
+
+        return {
+            "reply": quiz["reply"],
+            "response_type": "lesson_quiz",
+            "lesson_id": quiz["lesson_id"],
+            "questions": quiz["questions"],
+        }
 
     reply = generate_explanation(
         user_message,

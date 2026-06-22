@@ -7,6 +7,7 @@ from learning_journey.explanation_check import render_explanation_check
 from learning_journey.level_test import finish_learning_journey, render_level_test
 from learning_journey.lesson_box import render_lesson_box
 from learning_journey.lesson_data import get_subjects
+from learning_journey.lesson_quiz import render_lesson_quiz
 from learning_journey.placement_test import render_placement_test
 
 
@@ -54,6 +55,9 @@ def initialize_chat():
 
     if "level_test_score" not in st.session_state:
         st.session_state.level_test_score = None
+
+    if "lesson_quiz_results" not in st.session_state:
+        st.session_state.lesson_quiz_results = {}
 
     if "learning_completed" not in st.session_state:
         st.session_state.learning_completed = False
@@ -278,6 +282,11 @@ def render_chat(
                         render_level_test(message)
                     continue
 
+                if message.get("type") == "lesson_quiz":
+                    with st.chat_message("assistant"):
+                        render_lesson_quiz(message)
+                    continue
+
                 with st.chat_message(message["role"]):
                     st.write(message["content"])
 
@@ -367,6 +376,20 @@ def render_chat(
                     )
                     assistant_message["check_id"] = (
                         f"explanation_{len(st.session_state.chat_messages)}"
+                    )
+
+                if (
+                    backend_response.get("response_type") == "lesson_quiz"
+                    and not is_error_reply
+                ):
+                    assistant_message["type"] = "lesson_quiz"
+                    assistant_message["lesson_id"] = backend_response.get("lesson_id")
+                    assistant_message["questions"] = backend_response.get(
+                        "questions",
+                        [],
+                    )
+                    assistant_message["quiz_id"] = (
+                        f"lesson_quiz_{len(st.session_state.chat_messages)}"
                     )
 
                 st.session_state.chat_messages.append(assistant_message)

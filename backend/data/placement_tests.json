@@ -5,61 +5,199 @@
         "id": "ml_b_q01",
         "question": "What is Machine Learning mainly about?",
         "options": {
-          "A": "Learning patterns from data to make predictions or decisions",
-          "B": "Writing every rule manually for the computer",
+          "A": "Learning useful patterns from data",
+          "B": "Writing every rule manually",
           "C": "Designing computer hardware"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_01_what_is_machine_learning"
       },
       {
         "id": "ml_b_q02",
-        "question": "Which one is an example of data used in Machine Learning?",
+        "question": "In machine learning, what are features used for?",
         "options": {
-          "A": "A table of house prices and house sizes",
-          "B": "The color of the computer case only",
-          "C": "The power cable of the computer"
+          "A": "They are input variables used by the model",
+          "B": "They are only the final answers",
+          "C": "They are computer cables"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_01_what_is_machine_learning"
       },
       {
         "id": "ml_b_q03",
-        "question": "What does a Machine Learning model learn from?",
+        "question": "What makes supervised learning different from unsupervised learning?",
         "options": {
-          "A": "Examples in the data",
-          "B": "Random guesses only",
-          "C": "Electricity only"
+          "A": "Supervised learning uses known target values during training",
+          "B": "Supervised learning never uses data",
+          "C": "Supervised learning only groups data without labels"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_02_supervised_learning"
+      },
+      {
+        "id": "ml_b_q04",
+        "question": "Which task is an example of supervised learning?",
+        "options": {
+          "A": "Predicting customer churn using labeled examples",
+          "B": "Finding hidden groups without a target variable",
+          "C": "Deleting unnecessary files"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_02_supervised_learning"
+      },
+      {
+        "id": "ml_b_q05",
+        "question": "What is a regression problem?",
+        "options": {
+          "A": "A problem where the goal is to predict a numeric outcome",
+          "B": "A problem where the goal is only to find hidden groups",
+          "C": "A problem where the output must always be yes or no"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_03_regression_problems"
+      },
+      {
+        "id": "ml_b_q06",
+        "question": "Which example is a classification problem?",
+        "options": {
+          "A": "Predicting whether a review is positive or negative",
+          "B": "Predicting the exact sale price of a house",
+          "C": "Reducing the number of variables in a dataset"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_04_classification_problems"
+      },
+      {
+        "id": "ml_b_q07",
+        "question": "What is the goal of unsupervised learning?",
+        "options": {
+          "A": "Discovering hidden structure, patterns, or groups in data",
+          "B": "Predicting a known target value",
+          "C": "Manually writing all decision rules"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_05_unsupervised_learning"
+      },
+      {
+        "id": "ml_b_q08",
+        "question": "Why is data preparation important before applying machine learning?",
+        "options": {
+          "A": "Clean and prepared data helps the model learn more reliable patterns",
+          "B": "It removes the need for training data",
+          "C": "It makes every model perfect automatically"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_06_data_preparation"
       }
     ],
     "Intermediate": [
       {
         "id": "ml_i_q01",
-        "question": "In supervised learning, what is included in the training data?",
+        "question": "What is the purpose of splitting data into training and testing sets?",
         "options": {
-          "A": "Input data with correct target values or labels",
-          "B": "Only unlabeled data with no target values",
-          "C": "Only the model's final predictions"
+          "A": "To train the model on one part and evaluate it on unseen data",
+          "B": "To remove all target values from the data",
+          "C": "To make the dataset smaller only"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_08_data_splitting"
       },
       {
         "id": "ml_i_q02",
-        "question": "Which task is usually a regression problem?",
+        "question": "When is stratified sampling especially useful?",
         "options": {
-          "A": "Predicting the price of a house",
-          "B": "Classifying an email as spam or not spam",
-          "C": "Grouping customers without labels"
+          "A": "When target classes are imbalanced",
+          "B": "When the data has no features",
+          "C": "When the model does not need evaluation"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_08_data_splitting"
+      },
+      {
+        "id": "ml_i_q03",
+        "question": "What is k-fold cross validation used for?",
+        "options": {
+          "A": "Estimating model performance by training and validating on different parts of the data",
+          "B": "Converting categorical values into images",
+          "C": "Removing all observations from the dataset"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_09_resampling_methods"
+      },
+      {
+        "id": "ml_i_q04",
+        "question": "What does high bias usually indicate?",
+        "options": {
+          "A": "The model is too simple and may underfit the data",
+          "B": "The model has memorized every noise pattern",
+          "C": "The model has no input variables"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_10_bias_variance_tradeoff"
+      },
+      {
+        "id": "ml_i_q05",
+        "question": "What does high variance usually indicate?",
+        "options": {
+          "A": "The model is too sensitive to training data and may overfit",
+          "B": "The model is too simple to learn any pattern",
+          "C": "The model has no predictions"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_10_bias_variance_tradeoff"
+      },
+      {
+        "id": "ml_i_q06",
+        "question": "Why is model evaluation important?",
+        "options": {
+          "A": "It checks how well the model performs and whether it may generalize to new data",
+          "B": "It guarantees that the model will never fail",
+          "C": "It replaces the need for training"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_11_model_evaluation"
+      },
+      {
+        "id": "ml_i_q07",
+        "question": "What is feature engineering?",
+        "options": {
+          "A": "Preparing and transforming input variables so models can learn effectively",
+          "B": "Choosing the physical computer used for training",
+          "C": "Deleting the target column before supervised learning"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_12_feature_engineering"
+      },
+      {
+        "id": "ml_i_q08",
+        "question": "What does logistic regression estimate in classification?",
+        "options": {
+          "A": "The probability that an observation belongs to a class",
+          "B": "Only a continuous numeric price",
+          "C": "The number of rows in the dataset"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_14_logistic_regression"
+      },
+      {
+        "id": "ml_i_q09",
+        "id_lesson": "lesson_07_modeling_process",
+        "question": "What does the machine learning modeling process usually include?",
+        "options": {
+          "A": "Preparing data, splitting it, training a model, evaluating it, and improving performance",
+          "B": "Only writing fixed rules manually without data",
+          "C": "Deleting the testing data before evaluation"
         },
         "answer": "A"
       },
       {
-        "id": "ml_i_q03",
-        "question": "Which task is usually a classification problem?",
+        "id": "ml_i_q10",
+        "id_lesson": "lesson_13_linear_regression",
+        "question": "What is linear regression commonly used for?",
         "options": {
-          "A": "Predicting whether an email is spam or not spam",
-          "B": "Predicting the exact temperature tomorrow",
-          "C": "Predicting the price of a car"
+          "A": "Predicting a numeric output using a linear relationship with input variables",
+          "B": "Grouping unlabeled observations without a target value",
+          "C": "Choosing one class from image pixels only"
         },
         "answer": "A"
       }
@@ -67,33 +205,91 @@
     "Advanced": [
       {
         "id": "ml_a_q01",
-        "question": "What is the main purpose of regularization in Machine Learning?",
+        "question": "What is the main purpose of regularized regression?",
         "options": {
-          "A": "To reduce overfitting by limiting model complexity",
-          "B": "To make the model memorize the training data",
-          "C": "To remove the need for training data"
+          "A": "To control model complexity and reduce overfitting",
+          "B": "To remove all predictors from the model",
+          "C": "To make the model memorize every training example"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_15_regularized_regression"
       },
       {
         "id": "ml_a_q02",
-        "question": "What does cross-validation help estimate?",
+        "question": "What can lasso regression do to some coefficients?",
         "options": {
-          "A": "How well the model may perform on unseen data",
-          "B": "How many files are stored on the computer",
-          "C": "How fast the keyboard types"
+          "A": "Shrink some coefficients to zero",
+          "B": "Convert all targets into images",
+          "C": "Remove the loss function"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_15_regularized_regression"
       },
       {
         "id": "ml_a_q03",
-        "question": "What does overfitting mean?",
+        "question": "How do decision trees make predictions?",
         "options": {
-          "A": "The model performs well on training data but poorly on new data",
-          "B": "The model is too simple to learn any pattern",
-          "C": "The dataset has no columns"
+          "A": "By splitting the data into smaller groups based on feature values",
+          "B": "By using only random guesses",
+          "C": "By ignoring all input variables"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_16_decision_trees"
+      },
+      {
+        "id": "ml_a_q04",
+        "question": "Why can very deep decision trees be risky?",
+        "options": {
+          "A": "They may overfit the data",
+          "B": "They cannot be used for classification",
+          "C": "They do not use decision rules"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_16_decision_trees"
+      },
+      {
+        "id": "ml_a_q05",
+        "question": "How do random forests improve over a single decision tree?",
+        "options": {
+          "A": "They combine many trees to reduce instability and improve generalization",
+          "B": "They use only one fixed rule",
+          "C": "They remove randomness completely"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_17_random_forests"
+      },
+      {
+        "id": "ml_a_q06",
+        "question": "What is the main idea of gradient boosting?",
+        "options": {
+          "A": "Building models sequentially so each new model corrects previous errors",
+          "B": "Training many independent trees without using errors",
+          "C": "Using no hyperparameters"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_18_gradient_boosting"
+      },
+      {
+        "id": "ml_a_q07",
+        "question": "What does deep learning use to learn complex patterns?",
+        "options": {
+          "A": "Neural networks with multiple layers",
+          "B": "Only one manually written rule",
+          "C": "Only spreadsheet formatting"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_19_deep_learning"
+      },
+      {
+        "id": "ml_a_q08",
+        "question": "What is the purpose of interpretable machine learning?",
+        "options": {
+          "A": "Understanding how models make predictions",
+          "B": "Making models impossible to explain",
+          "C": "Avoiding model diagnosis"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_20_interpretable_machine_learning"
       }
     ]
   },
@@ -107,77 +303,184 @@
           "B": "Writing all rules manually",
           "C": "Only storing data in tables"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_01_introduction_to_deep_learning"
       },
       {
         "id": "dl_b_q02",
-        "question": "Why is Deep Learning useful?",
+        "question": "Why is Deep Learning useful for complex inputs such as images and sound?",
         "options": {
-          "A": "It can learn complex patterns from large amounts of data",
-          "B": "It removes the need for data completely",
-          "C": "It only works for simple arithmetic problems"
+          "A": "It can learn meaningful representations across several hidden layers",
+          "B": "It removes the need for numeric data",
+          "C": "It only works with one input feature"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_02_why_deep_learning"
       },
       {
         "id": "dl_b_q03",
-        "question": "What is a neural network inspired by?",
+        "question": "In a basic neural network, what does the input layer do?",
         "options": {
-          "A": "The way biological neurons are connected",
-          "B": "The design of computer keyboards",
-          "C": "The order of files in a folder"
+          "A": "It receives the original features from the data",
+          "B": "It produces the final prediction",
+          "C": "It deletes the hidden layers"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_03_neural_network_layers"
       },
       {
         "id": "dl_b_q04",
-        "question": "Which one is a common Deep Learning application?",
+        "question": "What is the role of hidden layers?",
         "options": {
-          "A": "Image recognition",
-          "B": "Changing the color of a laptop",
-          "C": "Turning off the internet"
+          "A": "They transform input features into useful internal representations",
+          "B": "They store only the final class labels",
+          "C": "They remove all weights from the network"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_03_neural_network_layers"
+      },
+      {
+        "id": "dl_b_q05",
+        "question": "What is the MNIST dataset commonly used for?",
+        "options": {
+          "A": "Teaching image classification of handwritten digits",
+          "B": "Training models to predict house prices",
+          "C": "Storing text documents only"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_04_mnist_data_for_deep_learning"
+      },
+      {
+        "id": "dl_b_q06",
+        "question": "Why should pixel values often be divided by 255 for image data?",
+        "options": {
+          "A": "To scale values between 0 and 1",
+          "B": "To delete all dark pixels",
+          "C": "To change images into text"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_05_preparing_input_features"
+      },
+      {
+        "id": "dl_b_q07",
+        "question": "What is one-hot encoding used for in multiclass targets?",
+        "options": {
+          "A": "Representing each class as a vector with the correct class marked as 1",
+          "B": "Removing all classes except one",
+          "C": "Changing the model architecture automatically"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_06_encoding_target_values"
+      },
+      {
+        "id": "dl_b_q08",
+        "question": "What does the output layer produce?",
+        "options": {
+          "A": "The final prediction",
+          "B": "The original raw dataset",
+          "C": "Only the training loss"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_12_output_layers"
       }
     ],
     "Intermediate": [
       {
         "id": "dl_i_q01",
-        "question": "What is the role of an activation function in a neural network?",
+        "question": "What is a feedforward neural network?",
         "options": {
-          "A": "It helps the network learn non-linear patterns",
-          "B": "It deletes the training data",
-          "C": "It changes the file format only"
+          "A": "A network where information moves from input through hidden layers to output",
+          "B": "A network where information moves randomly in all directions",
+          "C": "A network with no layers"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_07_feedforward_neural_networks"
       },
       {
         "id": "dl_i_q02",
-        "question": "What happens during neural network training?",
+        "question": "Which component allows a neural network to measure error and learn from it?",
         "options": {
-          "A": "The model updates its weights to reduce prediction error",
-          "B": "The model removes all layers",
-          "C": "The computer randomly deletes examples"
+          "A": "A feedback mechanism",
+          "B": "A file name",
+          "C": "A keyboard shortcut"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_08_core_components_of_a_deep_neural_network"
       },
       {
         "id": "dl_i_q03",
-        "question": "What is the purpose of a loss function?",
+        "question": "What does network architecture describe?",
         "options": {
-          "A": "To measure how wrong the model's predictions are",
-          "B": "To increase the number of images",
-          "C": "To replace the dataset"
+          "A": "The structure of layers, nodes, and activation functions",
+          "B": "The physical location of the computer",
+          "C": "Only the dataset file extension"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_09_network_architecture"
       },
       {
         "id": "dl_i_q04",
-        "question": "What does backpropagation help with?",
+        "question": "What does increasing layers and nodes usually increase?",
         "options": {
-          "A": "Updating weights based on the prediction error",
-          "B": "Displaying images on the screen",
-          "C": "Choosing the computer operating system"
+          "A": "Model capacity and computational cost",
+          "B": "The number of target labels only",
+          "C": "The need to remove all features"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_10_layers_and_nodes"
+      },
+      {
+        "id": "dl_i_q05",
+        "question": "What is a dense layer?",
+        "options": {
+          "A": "A fully connected layer where nodes connect to nodes in the next layer",
+          "B": "A layer that contains no connections",
+          "C": "A layer used only to store images"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_10_layers_and_nodes"
+      },
+      {
+        "id": "dl_i_q06",
+        "question": "Which activation function is often used in hidden layers because it passes positive signals and sets negative values to zero?",
+        "options": {
+          "A": "ReLU",
+          "B": "Softmax",
+          "C": "Linear only"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_13_activation_functions"
+      },
+      {
+        "id": "dl_i_q07",
+        "question": "Which output activation is commonly used for multiclass classification?",
+        "options": {
+          "A": "Softmax",
+          "B": "Linear activation",
+          "C": "No activation is ever used"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_14_output_activation_choices"
+      },
+      {
+        "id": "dl_i_q08",
+        "question": "For regression problems in neural networks, what output layer design is commonly used?",
+        "options": {
+          "A": "One node with a linear activation",
+          "B": "Ten softmax nodes for every regression problem",
+          "C": "No output layer"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_12_output_layers"
+      },
+      {
+        "id": "dl_i_q09",
+        "id_lesson": "lesson_11_hidden_layers",
+        "question": "What is the main role of hidden layers in a neural network?",
+        "options": {
+          "A": "Learning intermediate representations between the input and output layers",
+          "B": "Storing the final answer before training starts",
+          "C": "Removing the need for activation functions"
         },
         "answer": "A"
       }
@@ -185,43 +488,91 @@
     "Advanced": [
       {
         "id": "dl_a_q01",
-        "question": "What is the main purpose of dropout in Deep Learning?",
+        "question": "What is backpropagation?",
         "options": {
-          "A": "To reduce overfitting by randomly ignoring some neurons during training",
-          "B": "To remove the need for a loss function",
-          "C": "To make the model memorize every training example"
+          "A": "The process of working backward through layers to calculate how weights contributed to error",
+          "B": "The process of deleting hidden layers",
+          "C": "The process of converting images into folders"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_15_backpropagation"
       },
       {
         "id": "dl_a_q02",
-        "question": "Why are convolutional neural networks commonly used for images?",
+        "question": "What does a loss function measure?",
         "options": {
-          "A": "They can learn spatial patterns such as edges, shapes, and textures",
-          "B": "They only work with text files",
-          "C": "They remove pixels before training"
+          "A": "How far predictions are from the correct answers",
+          "B": "How many files are in a project",
+          "C": "How many layers should be deleted"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_16_loss_functions_and_optimizers"
       },
       {
         "id": "dl_a_q03",
-        "question": "What problem can vanishing gradients cause?",
+        "question": "Which loss function may be used for regression?",
         "options": {
-          "A": "Early layers learn very slowly because gradients become too small",
-          "B": "The dataset becomes larger automatically",
-          "C": "The model stops needing training"
+          "A": "Mean squared error",
+          "B": "Categorical cross entropy only",
+          "C": "Softmax"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_16_loss_functions_and_optimizers"
       },
       {
         "id": "dl_a_q04",
-        "question": "What is transfer learning commonly used for?",
+        "question": "What does an optimizer control?",
         "options": {
-          "A": "Using a pre-trained model and adapting it to a new task",
-          "B": "Moving files from one folder to another",
-          "C": "Deleting old model weights before training"
+          "A": "How the model updates its weights to reduce loss",
+          "B": "How the dataset is stored on disk",
+          "C": "How the input layer is removed"
         },
-        "answer": "A"
+        "answer": "A",
+        "id_lesson": "lesson_16_loss_functions_and_optimizers"
+      },
+      {
+        "id": "dl_a_q05",
+        "question": "What does batch size control during training?",
+        "options": {
+          "A": "How many observations are processed before a weight update",
+          "B": "How many classes are deleted",
+          "C": "How many models are ignored"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_17_model_training"
+      },
+      {
+        "id": "dl_a_q06",
+        "question": "What does model capacity refer to?",
+        "options": {
+          "A": "How much complexity a neural network can learn",
+          "B": "How much storage space the computer has",
+          "C": "How many datasets are unavailable"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_18_model_capacity"
+      },
+      {
+        "id": "dl_a_q07",
+        "question": "What is the main purpose of dropout?",
+        "options": {
+          "A": "To reduce overfitting by randomly setting some layer outputs to zero during training",
+          "B": "To remove the loss function",
+          "C": "To make the network depend more strongly on one node"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_19_regularization_and_dropout"
+      },
+      {
+        "id": "dl_a_q08",
+        "question": "What can happen if the learning rate is too large?",
+        "options": {
+          "A": "The model may fail to settle near a good solution",
+          "B": "Training always becomes perfect",
+          "C": "The model stops needing data"
+        },
+        "answer": "A",
+        "id_lesson": "lesson_20_learning_rate_and_grid_search"
       }
     ]
   }

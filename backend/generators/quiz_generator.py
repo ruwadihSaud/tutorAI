@@ -13,24 +13,44 @@ PLACEMENT_TESTS_PATH = (
 )
 
 
-def generate_quiz(lesson: dict | None = None) -> str:
+def generate_quiz(lesson: dict | None = None) -> dict:
     if not lesson:
-        return "I could not find the current lesson. Please select a lesson first."
+        return {
+            "reply": "I could not find the current lesson. Please select a lesson first.",
+            "lesson_id": None,
+            "questions": [],
+        }
 
     title = lesson.get("title", "Current Lesson")
-    content = lesson.get("content", "")
+    lesson_id = lesson.get("id")
+    subject = lesson.get("subject")
+    level = lesson.get("level")
+    placement_tests = load_placement_tests()
+    level_questions = placement_tests.get(subject, {}).get(level, [])
+    lesson_questions = [
+        question
+        for question in level_questions
+        if str(question.get("id_lesson")) == str(lesson_id)
+    ]
 
-    if not content or len(content.split()) < 20:
-        return "The selected lesson does not have enough content to generate a quiz."
+    if not lesson_questions:
+        return {
+            "reply": f"I could not find quiz questions for {title} yet.",
+            "lesson_id": lesson_id,
+            "questions": [],
+        }
 
-    return (
-        f"Quiz for {title}:\n\n"
-        "1. What is the main idea of this lesson?\n"
-        "2. Mention two important concepts from the lesson.\n"
-        "3. Why is this topic important?\n"
-        "4. Give one example related to the lesson.\n"
-        "5. Summarize the lesson in one sentence."
-    )
+    random.shuffle(lesson_questions)
+    questions = [
+        _prepare_question(question, level)
+        for question in lesson_questions
+    ]
+
+    return {
+        "reply": f"Quiz for {title}: Choose one answer for each question.",
+        "lesson_id": lesson_id,
+        "questions": questions,
+    }
 
 
 def load_placement_tests() -> dict[str, dict[str, list[dict]]]:
@@ -56,6 +76,7 @@ def _prepare_question(question: dict, level: str) -> dict:
 
     return {
         "id": question["id"],
+        "id_lesson": question.get("id_lesson"),
         "question": question["question"],
         "options": displayed_options,
         "correct_answer": correct_answer,
