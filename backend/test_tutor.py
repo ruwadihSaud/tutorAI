@@ -77,7 +77,6 @@ class TutorRoutingTests(unittest.TestCase):
             "create a quiz": "quiz",
             "help me": "help",
             "show my progress": "progress",
-            "create a learning plan": "learning_plan",
             "hello TutorAI": "general_chat",
         }
 

@@ -8,7 +8,6 @@ from backend.generators.explanation_generator import generate_explanation
 from backend.generators.general_generator import generate_general
 from backend.generators.help_generator import generate_help
 from backend.generators.intent_generator import generate_intent_classification
-from backend.generators.learning_plan_generator import generate_learning_plan
 from backend.generators.progress_generator import generate_progress
 from backend.generators.quiz_generator import (
     generate_level_test,
@@ -32,14 +31,13 @@ SUPPORTED_INTENTS = (
     "quiz",
     "help",
     "progress",
-    "learning_plan",
     "general_chat",
 )
 LLM_CLASSIFICATION_OPTIONS = (*SUPPORTED_INTENTS, "unclear")
 
 UNCLEAR_REQUEST_MESSAGE = (
     "I could not understand your request clearly. Please rephrase it or ask for "
-    "an explanation, summary, quiz, help, progress, or learning plan."
+    "an explanation, summary, quiz, help, or progress."
 )
 MISSING_LESSON_MESSAGE = (
     "I could not find a suitable lesson for your request. "
@@ -147,7 +145,6 @@ def generate_tutor_reply(
         "general_chat": generate_general,
         "help": generate_help,
         "progress": generate_progress,
-        "learning_plan": generate_learning_plan,
     }
     if intent in direct_generators:
         return _message_response(direct_generators[intent](user_message))

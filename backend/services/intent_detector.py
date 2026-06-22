@@ -16,10 +16,6 @@ INTENT_KEYWORDS = {
         "progress", "my progress", "how am i doing", "level",
         "تقدمي", "تقدمي الدراسي", "مستواي", "كيف مستواي",
     ],
-    "learning_plan": [
-        "learning plan", "study plan", "learning path", "plan", "path",
-        "خطة تعلم", "خطة دراسة", "مسار تعلم", "خطة", "مسار",
-    ],
     "explanation": [
         "explain", "explanation", "clarify", "teach", "what is",
         "what does", "how", "why", "video", "youtube",
