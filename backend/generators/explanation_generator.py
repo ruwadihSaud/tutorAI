@@ -47,8 +47,8 @@ def generate_explanation(
         f"Current lesson content:\n{content}\n\n"
         f"Student question:\n{user_message}\n\n"
         f"Explanation mode:\n{explanation_instruction}\n\n"
-        "Use simple language, explain step by step, and include one practical "
-        "example. Do not discuss unrelated topics. The interface will ask whether "
+        "Use simple language, explain briefly in 2-4 short points, and include "
+        "one practical example. Do not discuss unrelated topics. The interface will ask whether "
         "the student understood, so do not add a separate understanding question."
         f"{video_instruction}"
     )
@@ -57,7 +57,8 @@ def generate_explanation(
         "The student is viewing a specific lesson. Explain the requested concept "
         "from the supplied lesson context accurately and step by step. Adapt the "
         "explanation to the student's question."
-        "Keep the answer focused, short, and relevant. "
+        "Keep the answer focused, short, and relevant. Prefer concise replies "
+        "unless the student asks for more detail. "
     )
 
     reply = ask_llm(

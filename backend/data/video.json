@@ -1,79 +1,648 @@
 [
   {
-    "lesson_id": "ml_lesson_01_what_is_machine_learning",
+    "lesson_id": "lesson_01_what_is_machine_learning",
     "title": "What is Machine Learning?",
-    "keywords": ["machine learning", "ml", "what is machine learning", "تعلم الآلة"],
+    "keywords": [
+      "machine learning basics",
+      "what is machine learning",
+      "learning from data",
+      "patterns from data",
+      "prediction classification clustering",
+      "مفهوم تعلم الآلة",
+      "التعلم من البيانات",
+      "أنماط البيانات"
+    ],
     "video_title": "What is Machine Learning?",
     "video_url": "https://www.youtube.com/watch?v=ukzFI9rgwfU"
   },
   {
-    "lesson_id": "ml_lesson_02_supervised_learning",
+    "lesson_id": "lesson_02_supervised_learning",
     "title": "Supervised Learning",
-    "keywords": ["supervised learning", "labels", "classification", "regression", "التعلم المراقب"],
+    "keywords": [
+      "supervised learning",
+      "labeled data",
+      "target value",
+      "features and target",
+      "predict outcome",
+      "التعلم المراقب",
+      "البيانات المعلّمة",
+      "القيمة الهدف"
+    ],
     "video_title": "Supervised Learning",
     "video_url": "https://www.youtube.com/watch?v=4qVRBYAdLAo"
   },
   {
-    "lesson_id": "ml_lesson_03_unsupervised_learning",
-    "title": "Unsupervised Learning",
-    "keywords": ["unsupervised learning", "clustering", "dimension reduction", "التعلم غير المراقب"],
-    "video_title": "Unsupervised Learning",
-    "video_url": "https://www.youtube.com/watch?v=IUn8k5zSI6g"
-  },
-  {
-    "lesson_id": "ml_lesson_04_classification",
-    "title": "Classification",
-    "keywords": ["classification", "classifier", "classes", "تصنيف"],
-    "video_title": "Classification in Machine Learning",
-    "video_url": "https://www.youtube.com/watch?v=fSytzGwwBVw"
-  },
-  {
-    "lesson_id": "ml_lesson_05_regression",
-    "title": "Regression",
-    "keywords": ["regression", "linear regression", "prediction", "انحدار"],
+    "lesson_id": "lesson_03_regression_problems",
+    "title": "Regression Problems",
+    "keywords": [
+      "regression problem",
+      "numeric prediction",
+      "continuous outcome",
+      "predict house prices",
+      "regression vs linear regression",
+      "مسائل الانحدار",
+      "توقع قيمة رقمية",
+      "مخرجات مستمرة"
+    ],
     "video_title": "Linear Regression",
     "video_url": "https://www.youtube.com/watch?v=nk2CQITm_eo"
   },
   {
-    "lesson_id": "ml_lesson_06_overfitting",
-    "title": "Overfitting and Underfitting",
-    "keywords": ["overfitting", "underfitting", "generalization", "فرط التخصيص"],
+    "lesson_id": "lesson_04_classification_problems",
+    "title": "Classification Problems",
+    "keywords": [
+      "classification problem",
+      "categorical prediction",
+      "binary classification",
+      "multiclass classification",
+      "class probabilities",
+      "مسائل التصنيف",
+      "تصنيف ثنائي",
+      "تصنيف متعدد الفئات"
+    ],
+    "video_title": "Classification in Machine Learning",
+    "video_url": "https://www.youtube.com/watch?v=fSytzGwwBVw"
+  },
+  {
+    "lesson_id": "lesson_05_unsupervised_learning",
+    "title": "Unsupervised Learning",
+    "keywords": [
+      "unsupervised learning",
+      "no target variable",
+      "clustering",
+      "dimension reduction",
+      "hidden patterns",
+      "التعلم غير المراقب",
+      "التجميع العنقودي",
+      "تقليل الأبعاد"
+    ],
+    "video_title": "Unsupervised Learning",
+    "video_url": "https://www.youtube.com/watch?v=IUn8k5zSI6g"
+  },
+  {
+    "lesson_id": "lesson_06_data_preparation",
+    "title": "Data Preparation for Machine Learning",
+    "keywords": [
+      "data preparation",
+      "data cleaning",
+      "feature selection",
+      "missing data",
+      "recode variables",
+      "إعداد البيانات",
+      "تنظيف البيانات",
+      "معالجة القيم المفقودة"
+    ],
+    "video_title": "Data Preparation for Machine Learning Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Data+Preparation+for+Machine+Learning+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_07_modeling_process",
+    "title": "Machine Learning Modeling Process",
+    "keywords": [
+      "machine learning modeling process",
+      "train test workflow",
+      "model validation",
+      "model tuning",
+      "performance measurement",
+      "عملية بناء النموذج",
+      "تدريب واختبار النموذج",
+      "تقييم الأداء"
+    ],
+    "video_title": "Machine Learning Modeling Process Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Machine+Learning+Modeling+Process+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_08_data_splitting",
+    "title": "Data Splitting",
+    "keywords": [
+      "data splitting",
+      "train test split",
+      "training set testing set",
+      "stratified sampling",
+      "imbalanced classes",
+      "تقسيم البيانات",
+      "مجموعة التدريب والاختبار",
+      "العينة الطبقية"
+    ],
+    "video_title": "Data Splitting Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Data+Splitting+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_09_resampling_methods",
+    "title": "Resampling Methods",
+    "keywords": [
+      "resampling methods",
+      "k fold cross validation",
+      "bootstrap sampling",
+      "model validation",
+      "performance estimate",
+      "إعادة أخذ العينات",
+      "التحقق المتقاطع",
+      "بوتستراب"
+    ],
+    "video_title": "Resampling Methods Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Resampling+Methods+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_10_bias_variance_tradeoff",
+    "title": "Bias-Variance Tradeoff",
+    "keywords": [
+      "bias variance tradeoff",
+      "underfitting overfitting",
+      "model error",
+      "high bias high variance",
+      "generalization error",
+      "موازنة التحيز والتباين",
+      "فرط التخصيص",
+      "نقص التخصيص"
+    ],
     "video_title": "Overfitting and Underfitting",
     "video_url": "https://www.youtube.com/watch?v=EuBBz3bI-aA"
   },
   {
-    "lesson_id": "dl_lesson_01_what_is_deep_learning",
-    "title": "What is Deep Learning?",
-    "keywords": ["deep learning", "neural networks", "تعلم عميق"],
+    "lesson_id": "lesson_11_model_evaluation",
+    "title": "Model Evaluation",
+    "keywords": [
+      "model evaluation",
+      "regression metrics",
+      "classification metrics",
+      "evaluate unseen data",
+      "training vs testing performance",
+      "تقييم النموذج",
+      "مقاييس التصنيف",
+      "مقاييس الانحدار"
+    ],
+    "video_title": "Model Evaluation Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Model+Evaluation+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_12_feature_engineering",
+    "title": "Feature Engineering",
+    "keywords": [
+      "feature engineering",
+      "encoding categorical variables",
+      "standardization",
+      "missing value handling",
+      "transform features",
+      "هندسة الخصائص",
+      "ترميز المتغيرات الفئوية",
+      "توحيد القيم"
+    ],
+    "video_title": "Feature Engineering Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Feature+Engineering+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_13_linear_regression",
+    "title": "Linear Regression",
+    "keywords": [
+      "linear regression",
+      "simple linear regression",
+      "multiple linear regression",
+      "regression coefficients",
+      "interpretable baseline",
+      "الانحدار الخطي",
+      "معاملات الانحدار",
+      "الانحدار الخطي المتعدد"
+    ],
+    "video_title": "Linear Regression",
+    "video_url": "https://www.youtube.com/watch?v=nk2CQITm_eo"
+  },
+  {
+    "lesson_id": "lesson_14_logistic_regression",
+    "title": "Logistic Regression",
+    "keywords": [
+      "logistic regression",
+      "binary classification",
+      "class probability",
+      "sigmoid model",
+      "classification with predictors",
+      "الانحدار اللوجستي",
+      "احتمال الفئة",
+      "التصنيف الثنائي"
+    ],
+    "video_title": "Logistic Regression Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Logistic+Regression+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_15_regularized_regression",
+    "title": "Regularized Regression",
+    "keywords": [
+      "regularized regression",
+      "ridge regression",
+      "lasso regression",
+      "elastic net",
+      "penalty term",
+      "الانحدار المنتظم",
+      "انحدار ريدج",
+      "انحدار لاسو",
+      "إيلاستك نت"
+    ],
+    "video_title": "Regularized Regression Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Regularized+Regression+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_16_decision_trees",
+    "title": "Decision Trees",
+    "keywords": [
+      "decision trees",
+      "tree based model",
+      "decision rules",
+      "leaf prediction",
+      "pruning decision tree",
+      "أشجار القرار",
+      "قواعد القرار",
+      "تقليم الشجرة"
+    ],
+    "video_title": "Decision Trees Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Decision+Trees+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_17_random_forests",
+    "title": "Random Forests",
+    "keywords": [
+      "random forests",
+      "ensemble decision trees",
+      "bagging trees",
+      "feature randomness",
+      "tree voting",
+      "الغابات العشوائية",
+      "تجميع أشجار القرار",
+      "تصويت الأشجار"
+    ],
+    "video_title": "Random Forests Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Random+Forests+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_18_gradient_boosting",
+    "title": "Gradient Boosting",
+    "keywords": [
+      "gradient boosting",
+      "boosting trees",
+      "residual errors",
+      "sequential ensemble",
+      "learning rate trees",
+      "التعزيز التدريجي",
+      "تصحيح الأخطاء المتتابع",
+      "نماذج بوستنج"
+    ],
+    "video_title": "Gradient Boosting Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Gradient+Boosting+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_19_deep_learning",
+    "title": "Deep Learning",
+    "keywords": [
+      "deep neural networks",
+      "input hidden output layers",
+      "multi layer neural network",
+      "complex pattern recognition",
+      "neural network basics",
+      "الشبكات العصبية العميقة",
+      "الطبقات المخفية",
+      "تعلم الأنماط المعقدة"
+    ],
+    "video_title": "Deep Learning Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Deep+Learning+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_20_interpretable_machine_learning",
+    "title": "Interpretable Machine Learning",
+    "keywords": [
+      "interpretable machine learning",
+      "model interpretability",
+      "feature importance",
+      "partial dependence",
+      "LIME SHAP",
+      "تفسير نماذج تعلم الآلة",
+      "أهمية الخصائص",
+      "شاولي وقيم shap"
+    ],
+    "video_title": "Interpretable Machine Learning Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Interpretable+Machine+Learning+Machine+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_01_introduction_to_deep_learning",
+    "title": "Introduction to Deep Learning",
+    "keywords": [
+      "introduction to deep learning",
+      "deep neural networks introduction",
+      "representation learning",
+      "hidden layer representations",
+      "high dimensional data",
+      "مقدمة في التعلم العميق",
+      "تعلم التمثيلات",
+      "الشبكات متعددة الطبقات"
+    ],
     "video_title": "What is Deep Learning?",
     "video_url": "https://www.youtube.com/watch?v=6M5VXKLf4D4"
   },
   {
-    "lesson_id": "dl_lesson_02_neural_networks",
-    "title": "Neural Networks",
-    "keywords": ["neural network", "neurons", "layers", "شبكات عصبية"],
+    "lesson_id": "lesson_02_why_deep_learning",
+    "title": "Why Deep Learning?",
+    "keywords": [
+      "why deep learning",
+      "automatic feature learning",
+      "handwritten digit recognition",
+      "image classification features",
+      "learn complex patterns",
+      "لماذا نستخدم التعلم العميق",
+      "استخراج الخصائص تلقائيا",
+      "التعرف على الأرقام"
+    ],
+    "video_title": "Why Deep Learning? Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Why+Deep+Learning%3F+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_03_neural_network_layers",
+    "title": "Neural Network Layers",
+    "keywords": [
+      "neural network layers",
+      "input hidden output layer",
+      "hidden layer representation",
+      "deep network layers",
+      "neural network structure",
+      "طبقات الشبكة العصبية",
+      "طبقة الإدخال",
+      "الطبقة المخفية",
+      "طبقة الإخراج"
+    ],
     "video_title": "Neural Networks Explained",
     "video_url": "https://www.youtube.com/watch?v=aircAruvnKk"
   },
   {
-    "lesson_id": "dl_lesson_03_activation_functions",
+    "lesson_id": "lesson_04_mnist_data_for_deep_learning",
+    "title": "MNIST Data for Deep Learning",
+    "keywords": [
+      "MNIST dataset",
+      "handwritten digit classification",
+      "pixel values neural network",
+      "digit recognition dataset",
+      "0 to 9 classification",
+      "بيانات MNIST",
+      "تصنيف الأرقام المكتوبة",
+      "قيم البكسل"
+    ],
+    "video_title": "MNIST Data for Deep Learning Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=MNIST+Data+for+Deep+Learning+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_05_preparing_input_features",
+    "title": "Preparing Input Features",
+    "keywords": [
+      "preparing input features",
+      "feature scaling neural networks",
+      "one hot encoding inputs",
+      "standardization neural network",
+      "pixel values 0 1",
+      "تجهيز المدخلات",
+      "تحجيم الخصائص",
+      "ترميز المتغيرات"
+    ],
+    "video_title": "Preparing Input Features Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Preparing+Input+Features+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_06_encoding_target_values",
+    "title": "Encoding Target Values",
+    "keywords": [
+      "encoding target values",
+      "one hot encoded target",
+      "multiclass target encoding",
+      "MNIST one hot labels",
+      "class vector encoding",
+      "ترميز المخرجات",
+      "ترميز الهدف",
+      "ترميز one hot"
+    ],
+    "video_title": "Encoding Target Values Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Encoding+Target+Values+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_07_feedforward_neural_networks",
+    "title": "Feedforward Neural Networks",
+    "keywords": [
+      "feedforward neural network",
+      "multilayer perceptron",
+      "information flows forward",
+      "dense neural network",
+      "fully connected layers",
+      "الشبكات أمامية التغذية",
+      "الشبكة متعددة الطبقات",
+      "الطبقات الكثيفة"
+    ],
+    "video_title": "Feedforward Neural Networks Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Feedforward+Neural+Networks+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_08_core_components_of_a_deep_neural_network",
+    "title": "Core Components of a Deep Neural Network",
+    "keywords": [
+      "components of neural network",
+      "network architecture feedback training",
+      "loss feedback mechanism",
+      "model training approach",
+      "input architecture optimizer",
+      "مكونات الشبكة العصبية",
+      "آلية التغذية الراجعة",
+      "بنية الشبكة والتدريب"
+    ],
+    "video_title": "Core Components of a Deep Neural Network Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Core+Components+of+a+Deep+Neural+Network+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_09_network_architecture",
+    "title": "Network Architecture",
+    "keywords": [
+      "network architecture",
+      "number of layers and nodes",
+      "activation functions architecture",
+      "model capacity complexity",
+      "overfitting architecture",
+      "بنية الشبكة العصبية",
+      "عدد الطبقات والعقد",
+      "تعقيد النموذج"
+    ],
+    "video_title": "Network Architecture Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Network+Architecture+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_10_layers_and_nodes",
+    "title": "Layers and Nodes",
+    "keywords": [
+      "layers and nodes",
+      "neuron weights and bias",
+      "dense layer",
+      "fully connected layer",
+      "activation inside node",
+      "الطبقات والعقد",
+      "الأوزان والانحياز",
+      "الطبقة الكثيفة"
+    ],
+    "video_title": "Layers and Nodes Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Layers+and+Nodes+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_11_hidden_layers",
+    "title": "Hidden Layers",
+    "keywords": [
+      "hidden layers",
+      "intermediate representations",
+      "edges and shapes neural network",
+      "deep hidden layers",
+      "image recognition hidden features",
+      "الطبقات المخفية",
+      "التمثيلات الداخلية",
+      "خصائص الصور"
+    ],
+    "video_title": "Hidden Layers Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Hidden+Layers+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_12_output_layers",
+    "title": "Output Layers",
+    "keywords": [
+      "output layer",
+      "regression output node",
+      "binary classification output",
+      "multiclass output layer",
+      "MNIST ten output nodes",
+      "طبقة الإخراج",
+      "مخرجات التصنيف",
+      "مخرجات الانحدار"
+    ],
+    "video_title": "Output Layers Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Output+Layers+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_13_activation_functions",
     "title": "Activation Functions",
-    "keywords": ["activation function", "relu", "sigmoid", "tanh", "دالة تنشيط"],
+    "keywords": [
+      "activation functions",
+      "ReLU sigmoid softmax",
+      "linear activation",
+      "node activation",
+      "hidden layer activation",
+      "دوال التنشيط",
+      "ريلو",
+      "سيجمويد",
+      "سوفتماكس"
+    ],
     "video_title": "Activation Functions",
     "video_url": "https://www.youtube.com/watch?v=NkOv_k7r6no"
   },
   {
-    "lesson_id": "dl_lesson_04_backpropagation",
+    "lesson_id": "lesson_14_output_activation_choices",
+    "title": "Output Activation Choices",
+    "keywords": [
+      "output activation function",
+      "linear sigmoid softmax output",
+      "activation for regression",
+      "activation for binary classification",
+      "activation for multiclass classification",
+      "تنشيط طبقة الإخراج",
+      "اختيار دالة التنشيط",
+      "سوفتماكس للتصنيف"
+    ],
+    "video_title": "Output Activation Choices Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Output+Activation+Choices+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_15_backpropagation",
     "title": "Backpropagation",
-    "keywords": ["backpropagation", "gradient descent", "training neural network", "الانتشار العكسي"],
+    "keywords": [
+      "backpropagation",
+      "forward pass backward pass",
+      "update weights error",
+      "loss gradients",
+      "neural network learning from errors",
+      "الانتشار العكسي",
+      "تحديث الأوزان",
+      "تمرير أمامي وخلفي"
+    ],
     "video_title": "Backpropagation",
     "video_url": "https://www.youtube.com/watch?v=Ilg3gGewQ5U"
   },
   {
-    "lesson_id": "dl_lesson_05_convolutional_neural_networks",
-    "title": "Convolutional Neural Networks",
-    "keywords": ["cnn", "convolutional neural network", "image classification", "شبكات التفاف"],
-    "video_title": "Convolutional Neural Networks",
-    "video_url": "https://www.youtube.com/watch?v=YRhxdVk_sIs"
+    "lesson_id": "lesson_16_loss_functions_and_optimizers",
+    "title": "Loss Functions and Optimizers",
+    "keywords": [
+      "loss functions optimizers",
+      "mean squared error",
+      "cross entropy loss",
+      "Adam RMSProp Adagrad",
+      "gradient descent optimizer",
+      "دوال الخسارة",
+      "المحسنات",
+      "آدم",
+      "الانتروبي المتقاطع"
+    ],
+    "video_title": "Loss Functions and Optimizers Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Loss+Functions+and+Optimizers+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_17_model_training",
+    "title": "Model Training",
+    "keywords": [
+      "model training neural network",
+      "batch size epochs",
+      "mini batch stochastic gradient descent",
+      "validation split",
+      "training settings",
+      "تدريب النموذج",
+      "حجم الدفعة",
+      "عدد العصور",
+      "تقسيم التحقق"
+    ],
+    "video_title": "Model Training Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Model+Training+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_18_model_capacity",
+    "title": "Model Capacity",
+    "keywords": [
+      "model capacity",
+      "layers nodes capacity",
+      "high capacity overfitting",
+      "neural network complexity",
+      "validation performance capacity",
+      "سعة النموذج",
+      "تعقيد الشبكة",
+      "فرط التخصيص بسبب السعة"
+    ],
+    "video_title": "Model Capacity Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Model+Capacity+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_19_regularization_and_dropout",
+    "title": "Regularization and Dropout",
+    "keywords": [
+      "regularization dropout",
+      "weight decay",
+      "L1 L2 regularization",
+      "dropout neural network",
+      "reduce overfitting neural network",
+      "التنظيم و dropout",
+      "اضمحلال الأوزان",
+      "تقليل فرط التخصيص"
+    ],
+    "video_title": "Regularization and Dropout Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Regularization+and+Dropout+Deep+Learning+tutorial"
+  },
+  {
+    "lesson_id": "lesson_20_learning_rate_and_grid_search",
+    "title": "Learning Rate and Grid Search",
+    "keywords": [
+      "learning rate",
+      "grid search hyperparameters",
+      "learning rate schedule",
+      "early stopping",
+      "tune dropout optimizer nodes",
+      "معدل التعلم",
+      "البحث الشبكي",
+      "الإيقاف المبكر",
+      "ضبط المعاملات"
+    ],
+    "video_title": "Learning Rate and Grid Search Tutorial",
+    "video_url": "https://www.youtube.com/results?search_query=Learning+Rate+and+Grid+Search+Deep+Learning+tutorial"
   }
 ]

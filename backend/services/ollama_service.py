@@ -39,10 +39,17 @@ def ask_ollama(
         "model": model_name,
         "messages": messages,
         "stream": False,
+        "think": False,
+        "keep_alive": "10m",
+        "options": {
+            "temperature": 0.3,
+            "num_ctx": 4096,
+            "num_predict": 350,
+        },
     }
 
     try:
-        response = requests.post(OLLAMA_URL, json=payload, timeout=120)
+        response = requests.post(OLLAMA_URL, json=payload, timeout=90)
         response.raise_for_status()
         data = response.json()
         return data["message"]["content"]

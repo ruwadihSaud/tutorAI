@@ -75,7 +75,11 @@ def ask_llm(user_message: str, system_prompt: str | None = None) -> str:
     if not _service_has_error(FALLBACK_SERVICE, fallback_reply):
         return fallback_reply
 
-    return "LLM service error: Gemini and Ollama are currently unavailable."
+    return (
+        "LLM service error: Gemini and Ollama are currently unavailable.\n\n"
+        f"- {ACTIVE_SERVICE} ({ACTIVE_MODEL}): {primary_reply}\n"
+        f"- {FALLBACK_SERVICE} ({FALLBACK_MODEL}): {fallback_reply}"
+    )
 
 
 def is_llm_error(response_text: str) -> bool:

@@ -46,7 +46,7 @@ def ask_gemini(
                 "x-goog-api-key": api_key,
             },
             json=payload,
-            timeout=120,
+            timeout=30,
         )
         response.raise_for_status()
         data = response.json()
