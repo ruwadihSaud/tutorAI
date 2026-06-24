@@ -1,5 +1,7 @@
 # frontend/components/chat.py
 
+from html import escape
+
 import requests
 import streamlit as st
 
@@ -14,6 +16,91 @@ from learning_journey.placement_test import render_placement_test
 API_URL = "http://127.0.0.1:8000/chat"
 PLACEMENT_TEST_URL = "http://127.0.0.1:8000/placement-test"
 LEVEL_TEST_URL = "http://127.0.0.1:8000/level-test"
+
+
+def render_progress_report(message: dict) -> None:
+    progress = message.get("progress") or {}
+    subject = progress.get("subject", "Not selected")
+    level = progress.get("level", "Not started")
+    current_lesson = progress.get("current_lesson", "No lesson selected")
+    completed_count = progress.get("completed_count", 0)
+    total_lessons = progress.get("total_lessons", 0)
+    remaining_count = progress.get("remaining_count", 0)
+    progress_percent = progress.get("progress_percent", 0)
+    placement_score = progress.get("placement_score")
+    level_test_score = progress.get("level_test_score")
+
+    st.markdown(
+        f"""
+        <div class="progress-report-card">
+            <div class="progress-report-kicker">TutorAI Progress</div>
+            <div class="progress-report-title">{escape(subject)}</div>
+            <div class="progress-report-subtitle">
+                Level: <strong>{escape(level)}</strong>
+            </div>
+            <div class="progress-report-bar">
+                <div style="width: {progress_percent}%"></div>
+            </div>
+            <div class="progress-report-percent">{progress_percent}% complete</div>
+            <div class="progress-report-grid">
+                <div>
+                    <span>Completed</span>
+                    <strong>{completed_count}/{total_lessons}</strong>
+                </div>
+                <div>
+                    <span>Remaining</span>
+                    <strong>{remaining_count}</strong>
+                </div>
+            </div>
+            <div class="progress-report-lesson">
+                <span>Current lesson</span>
+                <strong>{escape(current_lesson)}</strong>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    score_columns = st.columns(2)
+    with score_columns[0]:
+        st.caption(
+            "Placement score: "
+            + (f"{placement_score}%" if placement_score is not None else "Not taken")
+        )
+    with score_columns[1]:
+        st.caption(
+            "Level test score: "
+            + (f"{level_test_score}%" if level_test_score is not None else "Not taken")
+        )
+
+    st.markdown(
+        '<div class="continue-journey-button-wrap"></div>',
+        unsafe_allow_html=True,
+    )
+    if st.button(
+        "Continue my Learning Journey",
+        use_container_width=True,
+        key=f"continue_from_progress_{message.get('progress_id', 'current')}",
+    ):
+        st.session_state.chat_messages.append(
+            {
+                "role": "user",
+                "content": "Continue my Learning Journey.",
+            }
+        )
+        st.session_state.chat_messages = [
+            chat_message
+            for chat_message in st.session_state.chat_messages
+            if chat_message.get("type") != "lesson_box"
+        ]
+        st.session_state.chat_messages.append(
+            {
+                "role": "assistant",
+                "content": "Continue with your current lesson.",
+                "type": "lesson_box",
+            }
+        )
+        st.rerun()
 
 
 def initialize_chat():
@@ -83,6 +170,12 @@ def get_backend_response(user_message: str) -> dict:
             json={
                 "message": user_message,
                 "lesson_id": st.session_state.get("current_lesson_id"),
+                "current_lesson_id": st.session_state.get("current_lesson_id"),
+                "selected_subject": st.session_state.get("selected_subject"),
+                "student_level": st.session_state.get("student_level"),
+                "completed_lessons": st.session_state.get("completed_lessons", []),
+                "placement_score": st.session_state.get("placement_score"),
+                "level_test_score": st.session_state.get("level_test_score"),
             },
             timeout=180,
         )
@@ -294,6 +387,11 @@ def render_chat(
                         render_lesson_quiz(message)
                     continue
 
+                if message.get("type") == "progress_report":
+                    with st.chat_message("assistant"):
+                        render_progress_report(message)
+                    continue
+
                 with st.chat_message(message["role"]):
                     st.write(message["content"])
 
@@ -397,6 +495,16 @@ def render_chat(
                     )
                     assistant_message["quiz_id"] = (
                         f"lesson_quiz_{len(st.session_state.chat_messages)}"
+                    )
+
+                if (
+                    backend_response.get("response_type") == "progress_report"
+                    and not is_error_reply
+                ):
+                    assistant_message["type"] = "progress_report"
+                    assistant_message["progress"] = backend_response.get("progress", {})
+                    assistant_message["progress_id"] = (
+                        f"progress_{len(st.session_state.chat_messages)}"
                     )
 
                 st.session_state.chat_messages.append(assistant_message)

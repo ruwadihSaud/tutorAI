@@ -40,13 +40,18 @@ def render_lesson_quiz(message: dict) -> None:
             f"Quiz complete: {result['score']}% "
             f"({result['correct']}/{result['total']} correct)"
         )
-        if not result.get("continued") and st.button(
-            "Continue Learning Journey",
-            use_container_width=True,
-            key=f"continue_journey_{quiz_id}",
-        ):
-            continue_learning_journey(quiz_id)
-            st.rerun()
+        if not result.get("continued"):
+            st.markdown(
+                '<div class="continue-journey-button-wrap"></div>',
+                unsafe_allow_html=True,
+            )
+            if st.button(
+                "Continue my Learning Journey",
+                use_container_width=True,
+                key=f"continue_journey_{quiz_id}",
+            ):
+                continue_learning_journey(quiz_id)
+                st.rerun()
         return
 
     with st.form(f"lesson_quiz_{quiz_id}"):

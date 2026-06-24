@@ -203,6 +203,88 @@ def get_global_styles() -> str:
             font-weight: 800;
         }}
 
+        .dashboard-card-marker {{
+            display: none !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.dashboard-card-marker) {{
+            background-color: {COLORS["surface"]} !important;
+            border: 1px solid {COLORS["border"]} !important;
+            border-radius: 16px !important;
+            padding: 18px !important;
+            margin-bottom: 16px !important;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
+        }}
+
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.dashboard-card-marker) * {{
+            color: {COLORS["text"]} !important;
+        }}
+
+        .dashboard-metric-card {{
+            min-height: 112px;
+            background-color: #F8FAFC;
+            border: 1px solid {COLORS["border"]};
+            border-radius: 10px;
+            padding: 14px;
+        }}
+
+        .dashboard-metric-title {{
+            color: {COLORS["muted_text"]} !important;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }}
+
+        .dashboard-metric-value {{
+            color: {COLORS["primary_dark"]} !important;
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+        }}
+
+        .dashboard-metric-caption {{
+            color: {COLORS["muted_text"]} !important;
+            font-size: 12px;
+            margin-top: 8px;
+            line-height: 1.35;
+        }}
+
+        .dashboard-lesson-box {{
+            background-color: #F8FAFC;
+            border-left: 4px solid {COLORS["primary"]};
+            border-radius: 10px;
+            padding: 14px;
+        }}
+
+        .dashboard-lesson-title {{
+            color: {COLORS["text"]} !important;
+            font-size: 19px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }}
+
+        .dashboard-completed-item {{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background-color: #F8FAFC;
+            border: 1px solid {COLORS["border"]};
+            border-radius: 8px;
+            padding: 11px 13px;
+            margin-bottom: 8px;
+        }}
+
+        .dashboard-completed-item strong {{
+            color: {COLORS["text"]} !important;
+            font-size: 14px;
+        }}
+
+        .dashboard-completed-item span {{
+            color: {COLORS["muted_text"]} !important;
+            font-size: 12px;
+        }}
+
         .contact-card-marker {{
             display: none !important;
         }}
@@ -631,9 +713,115 @@ def get_global_styles() -> str:
             margin-top: 6px;
         }}
 
+        .progress-report-card {{
+            background-color: #FFFFFF;
+            border: 1px solid {COLORS["border"]};
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+        }}
+
+        .progress-report-kicker {{
+            color: {COLORS["primary"]} !important;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }}
+
+        .progress-report-title {{
+            color: {COLORS["text"]} !important;
+            font-size: 20px;
+            font-weight: 800;
+            line-height: 1.25;
+        }}
+
+        .progress-report-subtitle {{
+            color: {COLORS["muted_text"]} !important;
+            font-size: 13px;
+            margin-top: 4px;
+        }}
+
+        .progress-report-subtitle strong {{
+            color: {COLORS["primary_dark"]} !important;
+        }}
+
+        .progress-report-bar {{
+            height: 10px;
+            width: 100%;
+            background-color: #E2E8F0;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 14px;
+        }}
+
+        .progress-report-bar div {{
+            height: 100%;
+            background-color: {COLORS["primary"]};
+            border-radius: 999px;
+        }}
+
+        .progress-report-percent {{
+            color: {COLORS["muted_text"]} !important;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 6px;
+        }}
+
+        .progress-report-grid {{
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }}
+
+        .progress-report-grid div,
+        .progress-report-lesson {{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            background-color: #F8FAFC;
+            border: 1px solid {COLORS["border"]};
+            border-radius: 10px;
+            padding: 10px;
+        }}
+
+        .progress-report-grid span,
+        .progress-report-lesson span {{
+            display: inline;
+            color: {COLORS["muted_text"]} !important;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 0;
+            white-space: nowrap;
+        }}
+
+        .progress-report-grid strong,
+        .progress-report-lesson strong {{
+            color: {COLORS["primary_dark"]} !important;
+            font-size: 15px;
+            line-height: 1.35;
+            text-align: left;
+        }}
+
+        .progress-report-lesson {{
+            margin-top: 8px;
+        }}
+
         div[data-testid="stVerticalBlock"]:has(.start-button-wrap) div[data-testid="stButton"] button {{
             min-width: 96px !important;
             padding: 8px 18px !important;
+        }}
+
+        .continue-journey-button-wrap {{
+            display: block;
+            height: 10px;
+        }}
+
+        div[data-testid="stVerticalBlock"]:has(.continue-journey-button-wrap)
+        div[data-testid="stButton"] {{
+            margin-top: 8px !important;
         }}
 
         div[data-testid="stVerticalBlock"]:has(.chat-sticky-marker) {{

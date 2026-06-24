@@ -124,6 +124,7 @@ def _get_current_lesson(lesson_id: str | None) -> dict | None:
 def generate_tutor_reply(
     user_message: str,
     lesson_id: str | None = None,
+    progress_context: dict | None = None,
 ) -> dict:
     """
     Main TutorAI router.
@@ -144,8 +145,22 @@ def generate_tutor_reply(
     direct_generators = {
         "general_chat": generate_general,
         "help": generate_help,
-        "progress": generate_progress,
     }
+    if intent == "progress":
+        progress_reply = generate_progress(
+            user_message,
+            lesson_id=lesson_id,
+            progress_context=progress_context,
+        )
+        if not progress_reply.get("progress"):
+            return _message_response(progress_reply["reply"])
+
+        return {
+            "reply": progress_reply["reply"],
+            "response_type": "progress_report",
+            "progress": progress_reply["progress"],
+        }
+
     if intent in direct_generators:
         return _message_response(direct_generators[intent](user_message))
 

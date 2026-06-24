@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 import backend.services.LLM as llm_service
 from backend.data.lesson_loader import get_lesson_by_id
+from backend.generators.progress_generator import generate_progress
 from backend.generators.quiz_generator import generate_quiz
 from backend.tutor import (
     UNCLEAR_REQUEST_MESSAGE,
@@ -17,6 +18,39 @@ from backend.tutor import (
 
 
 class TutorRoutingTests(unittest.TestCase):
+    def test_progress_reply_shows_subject_level_and_remaining_lessons(self):
+        reply = generate_progress(
+            "show my progress",
+            lesson_id="lesson_01_what_is_machine_learning",
+            progress_context={
+                "selected_subject": "Machine Learning",
+                "student_level": "Beginner",
+                "current_lesson_id": "lesson_01_what_is_machine_learning",
+                "completed_lessons": ["lesson_01_what_is_machine_learning"],
+            },
+        )
+
+        self.assertIn("Subject: Machine Learning", reply["reply"])
+        self.assertIn("Current level: Beginner", reply["reply"])
+        self.assertIn("Lessons remaining in this level", reply["reply"])
+        self.assertEqual(reply["progress"]["subject"], "Machine Learning")
+        self.assertEqual(reply["progress"]["level"], "Beginner")
+
+    def test_progress_route_returns_progress_report(self):
+        response = generate_tutor_reply(
+            "show my progress",
+            lesson_id="lesson_01_what_is_machine_learning",
+            progress_context={
+                "selected_subject": "Machine Learning",
+                "student_level": "Beginner",
+                "current_lesson_id": "lesson_01_what_is_machine_learning",
+                "completed_lessons": ["lesson_01_what_is_machine_learning"],
+            },
+        )
+
+        self.assertEqual(response["response_type"], "progress_report")
+        self.assertEqual(response["progress"]["subject"], "Machine Learning")
+
     def test_lesson_quiz_uses_only_questions_linked_to_current_lesson(self):
         lesson = get_lesson_by_id("lesson_01_what_is_machine_learning")
         quiz = generate_quiz(lesson)

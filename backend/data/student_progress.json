@@ -1,0 +1,11 @@
+{
+  "student_id": "student_001",
+  "student_name": "TutorAI Student",
+  "selected_subject": null,
+  "student_level": null,
+  "current_lesson_id": null,
+  "completed_lessons": [],
+  "placement_score": null,
+  "level_test_score": null,
+  "weak_lessons": []
+}
